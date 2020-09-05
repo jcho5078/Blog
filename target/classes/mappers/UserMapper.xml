@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	
+<!--  ===========================  유저 정보  ===============================  -->
+	
+	<!-- 모든 유저 정보 불러오기 -->
+	<select id="viewUser" parameterType="UserVO" resultType="UserVO">
+		SELECT ID, PW, NAME, HIREDATE, AUTHORITY
+		FROM USERTABLE
+	</select>
+	
+	<delete id="deleteUser" parameterType="UserVO">
+		DELETE FROM UserTable WHERE id = #{id}
+	</delete>
+	
+	<!-- 개인유저 정보 수정 -->
+	<update id="updatePrivateUser" parameterType="UserVO">
+		UPDATE USERTABLE
+		SET PW = #{pw}, NAME = #{name}
+	</update>
+	
+	<!-- 관리자가 유저 정보 수정 -->
+	<update id="updateUser" parameterType="UserVO">
+		UPDATE USERTABLE 
+		SET NAME = #{name}
+	</update>
+	
+	<!-- 유저 개인 정보 불러오기. -->
+	<select id="getUserForm" parameterType="UserVO" resultType="UserVO">
+		SELECT ID, PW, NAME, HIREDATE
+		FROM USERTABLE
+		WHERE ID = #{id}
+	</select>
+	
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="CustomUserDetails">
+		SELECT *
+		FROM USERTABLE
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="UserVO">
+		INSERT INTO USERTABLE (ID, PW, HIREDATE, NAME) 
+		VALUES (#{id}, #{pw}, SYSDATE, #{name})
+	</insert>
+	
+	<!-- 회원의 enabled값 가져와 차단유무 확인 -->
+	<select id="selectEnabled" parameterType="String" resultType="UserVO">
+		SELECT ENABLED
+		FROM USERTABLE
+		WHERE ID = #{id}
+	</select>
+	
+</mapper>
