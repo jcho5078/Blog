@@ -517,7 +517,7 @@
 /* Form */
 
 	form {
-		margin: 0 0 2em 0;
+		margin: 0 0 0 0;
 	}
 
 		form .field {
@@ -1565,7 +1565,7 @@
 
 		#main #header {
 			background: #e6e6e6;
-			padding: 1.15em 3.5em;
+			padding: 0.3em 2em;
 			text-align: right;
 		}
 

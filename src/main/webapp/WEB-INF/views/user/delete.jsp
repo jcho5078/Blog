@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>탈퇴 완료</title>
+<link rel="stylesheet" href="resources/assets/css/main.css?after" />
 </head>
 <body>
 	<h2>탈퇴가 완료되었습니다.</h2>

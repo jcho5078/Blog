@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Snapshot by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="resources/assets/css/main.css" />
+		<link rel="stylesheet" href="resources/assets/css/main.css?after" />
 	</head>
 	<body>
 		<div class="page-wrap">
@@ -22,19 +23,33 @@
 
 			<!-- Main -->
 				<section id="main">
-				
-					<!-- 로그아웃 폼(로그인 했을때만 보이게 수정해야함) -->
-					<form action="${pageContext.request.contextPath}/logout" method="POST">
-				   		<input type="submit" value="로그아웃" />
-					</form>
-					<h3>*<a href="manage/viewAllUser" >유저 목록 확인(관리자)</a></h3>
-					<h3>*<a href="user/userForm" >유저 정보 확인</a></h3>
+					<!-- Header -->
+					<header id="header">
+						<!-- if you login before -->
+						<sec:authorize access="isAuthenticated()">
+							<form action="${pageContext.request.contextPath}/logout" method="POST" class="logout_form">
+								<c:out value="${name}님 환영합니다"/>
+						   		<button type="submit">로그아웃</button>
+						   		<button type="button" value="유저정보 확인" onclick="location.href='user/userForm'">유저정보 확인</button>
+							</form>
+						</sec:authorize>
+						
+						<!-- if you doesn't login before -->
+						<sec:authorize access="isAnonymous()">
+					   		<a href="${pageContext.request.contextPath}/login">로그인</a>
+						</sec:authorize>
+						
+						<!-- only manager access here -->
+						<sec:authorize access="hasAuthority('ROLE_MANAGER')">
+							<h3>*<a href="manage/viewAllUser" >유저 목록 확인(관리자)</a></h3>
+						</sec:authorize>
+					</header>
 					
 					<!-- Banner -->
 						<section id="banner">
 							<div class="inner">
 								<h1>Hey, I'm Snapshot</h1>
-								<p>A fully responsive gallery template by <a href="https://templated.co">TEMPLATED</a></p>
+								<p>A fully responsive gallery template by TEMPLATED</p>
 								<ul class="actions">
 									<li><a href="#galleries" class="button alt scrolly big">Continue</a></li>
 								</ul>

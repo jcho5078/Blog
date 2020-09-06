@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-	//AuthenticationProvider 인터페이스는 화면에서 입력한 로그인 정보와 DB에서 가져온 사용자의 정보를 비교해주는 인터페이스이다.
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -24,11 +23,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		
-		//전역에 생성된 SecurityContextHolder를 이용해 사용자 정보 가져옴.
 		String id = (String)authentication.getPrincipal();
 		String pw = (String)authentication.getCredentials();
 		
 		CustomUserDetails user = (CustomUserDetails) userDetailsService.loadUserByUsername(id);
+		
+		System.out.println("ID: "+ user.getUsername());
+		System.out.println("Name: "+ user.getName());
 		
 		if(passwordEncoder.matches(pw, user.getPassword())) {
 			System.out.println("비밀번호 일치!!!!");

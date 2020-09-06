@@ -23,8 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		CustomUserDetails user = userDAO.login(id);
 		
 		user.setEnabled(userDAO.getEnabled(id).getEnabled());//enabled DB에서 가져옴
-		System.out.println("enabled: "+ userDAO.getEnabled(id).getEnabled());
-		System.out.println("details 유저 비밀번호: " + user.getPassword());
 		
 		if(id == null) {
 			throw new UsernameNotFoundException(id);
