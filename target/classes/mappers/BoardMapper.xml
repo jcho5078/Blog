@@ -7,10 +7,14 @@
 	
 	<!-- 게시판 리스트 출력 -->
 
-	<select id="BoardList" parameterType="BoardVO" resultType="BoardVO">
-		SELECT DBNUM, NAME, TITLE, WRITEDATE
-		FROM BOARDTABLE
-		ORDER BY DBNUM DESC
+	<select id="BoardList" parameterType="int" resultType="BoardVO">
+		SELECT BDNUM, WRITER, TITLE, WRITEDATE
+		FROM (
+			SELECT BDNUM, NAME, TITLE, WRITEDATE
+			FROM BOARDTABLE
+			ORDER BY BDNUM DESC
+		)
+		ORDER BY BDNUM DESC
 	</select>
 
 </mapper>
