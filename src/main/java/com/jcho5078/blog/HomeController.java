@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jcho5078.blog.dao.UserDAO;
+import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.user.CustomUserDetails;
 
 @Controller
@@ -19,13 +20,20 @@ public class HomeController {
 	
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, Principal principal) {
 		
-		CustomUserDetails user = userDAO.login(principal.getName());
+		CustomUserDetails user = null;
 		
-		model.addAttribute("name", user.getName());
+		if(principal != null) {
+			user = userDAO.login(principal.getName());
+			model.addAttribute("name", user.getName());
+		}
+		
+		model.addAttribute("BoardList", boardService.BoardList());
 		
 		return "home";
 	}

@@ -53,7 +53,6 @@
 
 $("#modify").click(function() {
 	var tdArr = new Array();
-	var object = new Object();//json 배열에 넣을 object (여기선 사용 안하지만, 여러 개의 JSON객체를 사용하는 배열 용.)
 	var Btn = $(this);
 	
 	var tr = Btn.parent().parent().parent();
@@ -64,15 +63,7 @@ $("#modify").click(function() {
 	var name = td.eq(2).text();
 	var hiredate = td.eq(3).text();
 	
-	object.id = id;
-	object.pw = pw;
-	object.name = name;
-	object.hiredate = hiredate;
-	
-	tdArr.push(object);
-	
 	document.getElementById("id").value = id;
-	document.getElementById("pw").value = pw;
 	document.getElementById("name").value = name;
 	document.getElementById("hiredate").value = hiredate;
 	

@@ -71,9 +71,5 @@ public class CustomUserDetails implements UserDetails{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setPassword(String pw) {
-		this.pw = pw;
-	}
 
 }

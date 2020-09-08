@@ -2,7 +2,13 @@ package com.jcho5078.blog.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,13 +66,11 @@ public class UserController {
 	//유저의 개인 정보 수정
 	@RequestMapping("user/updateUserForm")
 	public String updateUserForm(UserVO vo,
-			@RequestParam String pw) {
+			@RequestParam String id ,@RequestParam String pw) {
 		
+		vo.setId(id);
 		String encPw = userDetailsService.EncodingPw(pw);
-		
-		System.out.println(pw);
-		System.out.println(encPw);
-		
+	
 		vo.setPw(encPw);
 		
 		userService.updatePrivateUser(vo);
@@ -76,7 +80,15 @@ public class UserController {
 	
 	//유저의 개인 탈퇴
 	@RequestMapping("user/deleteUser")
-	public String deletePrivateUser(UserVO vo) throws Exception{
+	public String deletePrivateUser(UserVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null){    
+            new SecurityContextLogoutHandler().logout(request, response, auth);//로그아웃 후 탈퇴
+        }
+		
 		userService.deleteUser(vo);
 		return "user/delete";
 	}
@@ -93,7 +105,7 @@ public class UserController {
 	//모든 회원 정보 조회창에서 수정버튼 누르면 해당 회원 정보 가지고 수정 페이지로 이동.
 	@RequestMapping(value = "manage/updateAllUserForm")
 	public String getUpdateFormAllUser(Model model, UserVO vo,
-			@RequestParam String id, @RequestParam String name, @RequestParam String hiredate) {//@RequestParam은 html의 name속성으로 값을 받아옴.
+			@RequestParam String id, @RequestParam String name, @RequestParam String hiredate) {
 		
 		vo.setId(id);
 		vo.setName(name);
@@ -106,14 +118,28 @@ public class UserController {
 	
 	//관리자가 선택한 회원 정보 수정.
 	@RequestMapping("manage/updateAllUser")
-	public String updateAllUser(UserVO vo) {
+	public String updateAllUser(UserVO vo,
+			@RequestParam String id ,@RequestParam String pw) {
+		
+		vo.setId(id);
+		String encPw = userDetailsService.EncodingPw(pw);
+		
+		vo.setPw(encPw);
+		
 		userService.updateUser(vo);
 		return "redirect:/manage/viewAllUser";
 	}
 	
 	//관리자가 선택한 회원 탈퇴.
 	@RequestMapping("manage/deleteAllUser")
-	public String deleteAllUser(UserVO vo) throws Exception{
+	public String deleteAllUser(UserVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null){    
+            new SecurityContextLogoutHandler().logout(request, response, auth);//로그아웃 후 탈퇴
+        }
+		
 		userService.deleteUser(vo);
 		return "redirect:/manage/viewAllUser";
 	}

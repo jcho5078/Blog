@@ -25,36 +25,45 @@
 	<!-- Main -->
 	<section id="main">
 		<header id="header">
-			<h1>회원정보 수정</h1>
+			<form action="${pageContext.request.contextPath}/logout" method="POST" class="logout_form">
+		   		<button type="submit">로그아웃</button>
+			</form>
 		</header>
-		<section id="banner" style="height: 20em;">
+		<section id="banner">
 			<div class="inner">
 				<h3>회원정보 수정</h3>
 			</div>
 		</section>
 		<section id="galleries">
 			<div class="gallery">
-				<form action="updateUserForm">
-					<table border="1">
-						<tr>
-							<th>ID</th>
-							<th>PW</th>
-							<th>닉네임</th>
-							<th>수정</th>
-						</tr>
-						<tr>
-							<td id="id"><c:out value="${userForm.id}"/></td>
-							<td><input type="password" name="pw"></td>
-							<td><input type="text" id="name" name="name" placeholder="${userForm.name}"></td>
-							<td><input type="submit" value="수정"></td>
-						</tr>
-					</table>
-				</form>
-				
-				<form action="deleteUser" id="deleteForm">
-					<input type="button" id="delete" value="탈퇴">
-					<input type="hidden" id="delete_id" name="id" value="">
-				</form>
+				<div class="userForm" style="align-content: center; display: inline;">
+					<form action="updateUserForm">
+						<dl>
+							<dt><label>ID</label></dt>
+							<dd>
+								<h3 id="id"><c:out value="${userForm.id}"/></h3>
+								<input id="id_hidden" name="id" type="hidden">
+							</dd>
+						</dl>
+						<dl>
+							<dt>PW</dt>
+							<dd><input type="password" name="pw" placeholder="Pw"></dd>
+						</dl>
+						<dl>
+							<dt>닉네임</dt>
+							<dd><input type="text" id="name" name="name" value="${userForm.name}"></dd>
+						</dl>
+						<dl>
+							<dt>가입 일짜</dt>
+							<dd><c:out value="${userForm.hiredate}"/></dd>
+						</dl>
+						<input type="submit" value="수정">
+					</form>
+					<form action="deleteUser" id="deleteForm">
+						<input type="button" id="delete" value="탈퇴">
+						<input type="hidden" id="delete_id" name="id" value="">
+					</form>
+				</div>
 			</div>
 		</section>
 	</section>
@@ -63,12 +72,14 @@
 $("#delete").click(function() {
 
 	var id = $("#id").text();
-	console.log(id);
 	
 	document.getElementById("delete_id").value = id;
 	
 	document.getElementById("deleteForm").submit();
 });
+
+var id_hidden = $("#id").text();
+document.getElementById("id_hidden").value = id_hidden;
 
 </script>
 </body>

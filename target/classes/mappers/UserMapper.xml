@@ -20,12 +20,14 @@
 	<update id="updatePrivateUser" parameterType="UserVO">
 		UPDATE USERTABLE
 		SET PW = #{pw}, NAME = #{name}
+		WHERE ID = #{id}
 	</update>
 	
 	<!-- 관리자가 유저 정보 수정 -->
 	<update id="updateUser" parameterType="UserVO">
 		UPDATE USERTABLE 
-		SET NAME = #{name}
+		SET PW = #{pw}, NAME = #{name}
+		WHERE ID = #{id}
 	</update>
 	
 	<!-- 유저 개인 정보 불러오기. -->

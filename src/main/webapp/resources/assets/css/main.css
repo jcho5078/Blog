@@ -751,6 +751,7 @@
 		position: relative;
 		overflow: hidden;
 		min-height: 37em;
+		align-content: center;
 	}
 
 		@media screen and (max-width: 980px) {
@@ -883,6 +884,12 @@
 					}
 
 				}
+/* UserForm */
+	
+	.userForm{
+		align-content: center;
+		display: inline;
+	}
 
 /* Icon */
 

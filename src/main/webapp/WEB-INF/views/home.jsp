@@ -36,7 +36,7 @@
 						
 						<!-- if you doesn't login before -->
 						<sec:authorize access="isAnonymous()">
-					   		<a href="${pageContext.request.contextPath}/login">로그인</a>
+					   		<button type="button" value="유저정보 확인" onclick="location.href='login'">로그인</button>
 						</sec:authorize>
 						
 						<!-- only manager access here -->
@@ -65,37 +65,22 @@
 										<h2>What's New</h2>
 									</header>
 									<div class="content">
+										<c:forEach items="">
+										
+										</c:forEach>
 										<div class="media">
 											<a href="resources/images/fulls/01.jpg"><img src="resources/images/thumbs/01.jpg" alt="" title="This right here is a caption." /></a>
 										</div>
-										<div class="media">
-											<a href="resources/images/fulls/05.jpg"><img src="resources/images/thumbs/05.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/09.jpg"><img src="resources/images/thumbs/09.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/02.jpg"><img src="resources/images/thumbs/02.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/06.jpg"><img src="resources/images/thumbs/06.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/10.jpg"><img src="resources/images/thumbs/10.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/03.jpg"><img src="resources/images/thumbs/03.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
-										<div class="media">
-											<a href="resources/images/fulls/07.jpg"><img src="resources/images/thumbs/07.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
+										
 									</div>
 									<footer>
 										<a href="gallery.html" class="button big">Full Gallery</a>
 									</footer>
 								</div>
 						</section>
-
+					
+					<!-- Board -->
+					<form action="#" method="post">
 					<!-- Contact -->
 						<section id="contact">
 							<!-- Social -->
@@ -113,16 +98,28 @@
 
 							<!-- Form -->
 								<div class="column">
-									<h3>Get in Touch</h3>
-									<form action="#" method="post">
+									<h3>Write Something</h3>
+									
 										<div class="field half first">
-											<label for="name">Name</label>
-											<input name="name" id="name" type="text" placeholder="Name">
+											<sec:authorize access="isAnonymous()">
+												<label for="name">Name</label>
+												<input name="name" id="name" type="text" placeholder="Name">
+											</sec:authorize>
+											
+											<sec:authorize access="isAuthenticated()">
+												<label for="username">Name</label>
+												<h4 id="username" name="username"><c:out value="${name}"/></h4>
+												<input type="hidden" id="name_user" name="name_user">
+											</sec:authorize>
 										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input name="email" id="email" type="email" placeholder="Email">
-										</div>
+										
+										<sec:authorize access="isAnonymous()">
+											<div class="field half">
+												<label for="pw">Password</label>
+												<input name="pw" id="pw" type="password" placeholder="Password">
+											</div>
+										</sec:authorize>
+										
 										<div class="field">
 											<label for="message">Message</label>
 											<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
@@ -130,11 +127,12 @@
 										<ul class="actions">
 											<li><input value="Send Message" class="button" type="submit"></li>
 										</ul>
-									</form>
+		
 								</div>
 
 						</section>
-
+						</form>
+						
 					<!-- Footer -->
 						<footer id="footer">
 							<div class="copyright">
@@ -151,6 +149,16 @@
 			<script src="resources/assets/js/skel.min.js"></script>
 			<script src="resources/assets/js/util.js"></script>
 			<script src="resources/assets/js/main.js"></script>
+			<script>
+				$('#message').keyup(function (e){
+				    var content = $(this).val();
+	
+				    if (content.length > 2800){
+				        alert("최대 2800자까지 입력 가능합니다.");
+				        $(this).val(content.substring(0, 2800));
+				    }
+				});
+			</script>
 
 	</body>
 </html>

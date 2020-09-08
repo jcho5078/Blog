@@ -7,8 +7,7 @@
 <meta charset="UTF-8">
 	<title>로그인</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="resources/assets/css/main.css?after" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css?after" />
 </head>
 <body>
 	<section id="main">
@@ -27,13 +26,16 @@
 			* <a href="signUpPage">회원가입</a>
 			
 			<c:if test='${error eq "login"}'>
-				<h4 style="color: red">아이디, 비밀번호 오류.</h4>
+				<h4 style="color: red;">아이디, 비밀번호 오류.</h4>
 			</c:if>
 			<c:if test='${error eq "duplicate"}'>
-				<h4 style="color: red">이미 로그인 중인 사용자.</h4>
+				<h4 style="color: red;">이미 로그인 중인 사용자.</h4>
 			</c:if>
 			<c:if test='${error eq "NotFound"}'>
-				<h4 style="color: red">등록되지 않은 유저.</h4>
+				<h4 style="color: red;">등록되지 않은 유저.</h4>
+			</c:if>
+			<c:if test='${error eq "Authentication Error"}'>
+				<h4 style="color: red;">잘못된 정보</h4>
 			</c:if>
 		</div>
 	</section>

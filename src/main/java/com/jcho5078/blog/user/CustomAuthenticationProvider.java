@@ -31,6 +31,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		System.out.println("ID: "+ user.getUsername());
 		System.out.println("Name: "+ user.getName());
 		
+		System.out.println("row pw: "+pw);
+		System.out.println("enc pw: "+user.getPassword());
+		
 		if(passwordEncoder.matches(pw, user.getPassword())) {
 			System.out.println("비밀번호 일치!!!!");
 		}else {

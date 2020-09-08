@@ -10,5 +10,6 @@
 <body>
 	<h2>탈퇴가 완료되었습니다.</h2>
 	<h4>이제 빨랑 가.</h4>
+	<button type="button" onclick="location.href='/'">홈으로</button>
 </body>
 </html>
