@@ -20,9 +20,9 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public BoardVO selectBoard(BoardVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardVO selectBoard(int bdnum) {
+		
+		return sqlSession.selectOne("board.selectBoard", bdnum);
 	}
 
 	@Override

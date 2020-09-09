@@ -5,16 +5,26 @@
 
 <!--  ===========================  게시판   ===============================  -->
 	
+	
 	<!-- 게시판 리스트 출력 -->
-
-	<select id="BoardList" parameterType="int" resultType="BoardVO">
+	<select id="BoardList" resultType="BoardVO">
+		<![CDATA[
 		SELECT BDNUM, WRITER, TITLE, WRITEDATE
 		FROM (
-			SELECT BDNUM, NAME, TITLE, WRITEDATE
+			SELECT 
+				BDNUM, WRITER, TITLE, WRITEDATE,
+				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
-			ORDER BY BDNUM DESC
 		)
+		WHERE rn < 8
 		ORDER BY BDNUM DESC
+		]]>
+	</select>
+	
+	<!-- 게시글 조회 -->
+	<select id="selectBoard" parameterType="int" resultType="BoardVO">
+		SELECT * FROM BOARDTABLE
+		WHERE ID = #{bdnum}
 	</select>
 
 </mapper>

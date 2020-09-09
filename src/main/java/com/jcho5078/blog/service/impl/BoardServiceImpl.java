@@ -18,11 +18,11 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDAO.BoardList();
 	}
-
+	
 	@Override
-	public BoardVO selectBoard(BoardVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardVO selectBoard(int bdnum) {
+		
+		return boardDAO.selectBoard(bdnum);
 	}
 
 	@Override

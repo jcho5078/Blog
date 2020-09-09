@@ -63,21 +63,15 @@
 								<div class="gallery">
 									<header class="special">
 										<h2>What's New</h2>
-										
-										<!-- 게시판 몇개씩 출력하는지 정함. -->
-										<form action="">
-											<select id="selectBoardRow">
-												<option value="8">8개씩 출력</option>
-												<option value="16">16개씩 출력</option>
-											</select>
-										</form>
 
 									</header>
 									<div class="content">
 										<!-- 게시판 출력 -->
 										<c:if test="">
 											<c:forEach var="list" items="${BoardList}" begin="${BoardList}">
-												
+												<div class="media">
+													
+												</div>
 											</c:forEach>
 										</c:if>
 										<div class="media">
@@ -169,18 +163,6 @@
 				        alert("최대 2800자까지 입력 가능합니다.");
 				        $(this).val(content.substring(0, 2800));
 				    }
-				});
-				
-				$('#selectBoardRow option:selected').text(function (e){
-				    var num = $('#selectBoardRow').val();
-	
-				    console.log(num);
-				});
-				
-				$('#selectBoardRow').change(function (e){
-				    var num = $('#selectBoardRow').val();
-	
-				    console.log(num);
 				});
 			</script>
 

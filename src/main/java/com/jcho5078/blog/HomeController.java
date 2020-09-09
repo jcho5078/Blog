@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
@@ -23,8 +24,9 @@ public class HomeController {
 	@Autowired
 	private BoardService boardService;
 	
+	//메인화면 로그인 네임 및 게시글 리스트 출력
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, Principal principal) {
+	public String home(Model model, Principal principal) {
 		
 		CustomUserDetails user = null;
 		
