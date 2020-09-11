@@ -65,15 +65,14 @@
 										<h2>What's New</h2>
 
 									</header>
+									
+									<!-- 게시판 출력 -->
+									<c:forEach var="list" items="${BoardList}">
+										<a href="board/readboard?bdnum=${list.bdnum}">${list.title}</a>
+									</c:forEach>
+									
 									<div class="content">
-										<!-- 게시판 출력 -->
-										<c:if test="">
-											<c:forEach var="list" items="${BoardList}" begin="${BoardList}">
-												<div class="media">
-													
-												</div>
-											</c:forEach>
-										</c:if>
+										
 										<div class="media">
 											<a href="resources/images/fulls/01.jpg"><img src="resources/images/thumbs/01.jpg" alt="" title="This right here is a caption." /></a>
 										</div>
@@ -84,9 +83,10 @@
 									</footer>
 								</div>
 						</section>
+						
+					<!-- Board Form -->
+					<form id="boardForm" action="board/insert" method="post">
 					
-					<!-- Board -->
-					<form action="#" method="post">
 					<!-- Contact -->
 						<section id="contact">
 							<!-- Social -->
@@ -102,36 +102,39 @@
 									</ul>
 								</div>
 
-							<!-- Form -->
 								<div class="column">
 									<h3>Write Something</h3>
 									
 										<div class="field half first">
 											<sec:authorize access="isAnonymous()">
-												<label for="name">Name</label>
-												<input name="name" id="name" type="text" placeholder="Name">
+												<label  for="pw">Name</label>
+												<input id="am_writer" name="am_writer" type="text" placeholder="Name">
+												
+												<label for="am_pw">Password</label>
+												<input name="am_pw" id="anonymous_pw" type="password" placeholder="Password">
+	
 											</sec:authorize>
 											
 											<sec:authorize access="isAuthenticated()">
-												<label for="username">Name</label>
+												<label>Name</label>
 												<h4 id="username" name="username"><c:out value="${name}"/></h4>
-												<input type="hidden" id="name_user" name="name_user">
+												<input type="hidden" id="writer" name="writer">
 											</sec:authorize>
 										</div>
 										
-										<sec:authorize access="isAnonymous()">
-											<div class="field half">
-												<label for="pw">Password</label>
-												<input name="pw" id="pw" type="password" placeholder="Password">
-											</div>
-										</sec:authorize>
+										<div class="field">
+											<label for="title">Title</label>
+											<input type="text" name="title" id="title" placeholder="Title"></textarea>
+										</div>
 										
 										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
+											<label for="message">Content</label>
+											<textarea name="content" id="content" rows="6" placeholder="Content"></textarea>
 										</div>
 										<ul class="actions">
-											<li><input value="Send Message" class="button" type="submit"></li>
+											<li>
+												<button type="button" id="submitBtn">작성 완료</button>
+											</li>
 										</ul>
 		
 								</div>
@@ -156,13 +159,33 @@
 			<script src="resources/assets/js/util.js"></script>
 			<script src="resources/assets/js/main.js"></script>
 			<script>
-				$('#message').keyup(function (e){
+				$('#content').keyup(function (e){
 				    var content = $(this).val();
 	
 				    if (content.length > 2800){
 				        alert("최대 2800자까지 입력 가능합니다.");
 				        $(this).val(content.substring(0, 2800));
 				    }
+				});
+				
+				$('#submitBtn').click(function(e) {
+					
+					var title = $('#title').val();
+					var content = $('#content').val();
+					var writer = $('#username').text();
+					
+					$('#writer').val(writer);
+					
+					if(title == ""){
+						alert('제목을 입력하시오');
+					}
+					if(content == ""){
+						alert('내용을 입력하시오');
+					}
+					
+					if(title != "" && content != ""){
+						$('#boardForm').submit();
+					}
 				});
 			</script>
 

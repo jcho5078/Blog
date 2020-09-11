@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.user.CustomUserDetails;
+import com.jcho5078.blog.vo.PageVO;
 
 @Controller
 public class HomeController {
@@ -26,7 +27,7 @@ public class HomeController {
 	
 	//메인화면 로그인 네임 및 게시글 리스트 출력
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model, Principal principal) {
+	public String home(Model model, Principal principal, PageVO vo) {
 		
 		CustomUserDetails user = null;
 		
@@ -34,8 +35,10 @@ public class HomeController {
 			user = userDAO.login(principal.getName());
 			model.addAttribute("name", user.getName());
 		}
+		vo.setStartPage(1);
+		vo.setEndPage(10);
 		
-		model.addAttribute("BoardList", boardService.BoardList());
+		model.addAttribute("BoardList", boardService.BoardList(vo));
 		
 		return "home";
 	}

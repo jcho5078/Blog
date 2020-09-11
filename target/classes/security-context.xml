@@ -43,6 +43,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		
 		<!-- 해당 URL에 권한 가진 사람만 접근 가능하도록 설정 -->
 		<sec:intercept-url pattern="/login" access="permitAll()" />
+		<sec:intercept-url pattern="/loginPass" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/signUpPage" access="permitAll()" />
 		<sec:intercept-url pattern="/signUp" access="permitAll()" />
 		<sec:intercept-url pattern="/login_duplicate" access="permitAll()" />

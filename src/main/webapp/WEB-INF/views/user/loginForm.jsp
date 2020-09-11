@@ -16,11 +16,12 @@
 		</header>
 		
 		<div class="inner">
-				<form action="${pageContext.request.contextPath}/loginPass" method="post">
-			ID: <input type="text" name="id"><br>
-			PW: <input type="password" name="pw">
-			<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-			<input type="submit" value="로그인">
+			<form action="${pageContext.request.contextPath}/loginPass" method="post" id="loginForm">
+				ID: <input type="text" name="id" placeholder="ID"><br>
+				PW: <input type="password" id="input_pw" placeholder="PW">
+				<input type="hidden" id="pw" name="pw">
+				<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+				<input id="login" type="button" value="로그인">
 			</form>
 
 			* <a href="signUpPage">회원가입</a>
@@ -39,5 +40,18 @@
 			</c:if>
 		</div>
 	</section>
+	
+	<script src="resources/assets/js/jquery.min.js"></script>
+	<script src="resources/assets/js/jquery.poptrox.min.js"></script>
+	<script src="resources/assets/js/jquery.scrolly.min.js"></script>
+	<script>
+		$('#login').click(function(e){
+			var pw = $("#input_pw").val();
+			console.log(pw);
+			$('#pw').val(pw);
+			console.log("dd: "+$('#pw').val());
+			$('#loginForm').submit();
+		});
+	</script>
 </body>
 </html>

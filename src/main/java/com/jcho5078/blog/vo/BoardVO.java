@@ -3,22 +3,30 @@ package com.jcho5078.blog.vo;
 public class BoardVO {
 	
 	private int bdnum;
-	private String name;
+	private String writer;
+	private String pw;
 	private String title;
 	private String content;
 	private String writedate;
+	
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
 	
 	public int getBdnum() {
 		return bdnum;
 	}
 	public void setBdnum(int bdnum) {
 		this.bdnum = bdnum;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getTitle() {
 		return title;

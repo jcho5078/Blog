@@ -67,8 +67,6 @@ $("#modify").click(function() {
 	document.getElementById("name").value = name;
 	document.getElementById("hiredate").value = hiredate;
 	
-	console.log(document.getElementById("id").value);
-	
 	document.getElementById("modifyForm").submit();
 });
 

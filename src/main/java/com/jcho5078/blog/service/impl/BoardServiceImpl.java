@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jcho5078.blog.dao.BoardDAO;
 import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.vo.BoardVO;
+import com.jcho5078.blog.vo.PageVO;
 
 public class BoardServiceImpl implements BoardService{
 
@@ -14,9 +15,9 @@ public class BoardServiceImpl implements BoardService{
 	BoardDAO boardDAO;
 	
 	@Override
-	public List<BoardVO> BoardList() {
+	public List<BoardVO> BoardList(PageVO vo) {
 		
-		return boardDAO.BoardList();
+		return boardDAO.BoardList(vo);
 	}
 	
 	@Override
@@ -27,14 +28,14 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void insertBoard(BoardVO vo) {
-		// TODO Auto-generated method stub
 		
+		boardDAO.insertBoard(vo);
 	}
 
 	@Override
 	public void deleteBoard(BoardVO vo) {
-		// TODO Auto-generated method stub
 		
+		boardDAO.deleteBoard(vo);
 	}
 
 }

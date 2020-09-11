@@ -7,7 +7,7 @@
 	
 	
 	<!-- 게시판 리스트 출력 -->
-	<select id="BoardList" resultType="BoardVO">
+	<select id="BoardList" parameterType="PageVO" resultType="BoardVO">
 		<![CDATA[
 		SELECT BDNUM, WRITER, TITLE, WRITEDATE
 		FROM (
@@ -16,15 +16,43 @@
 				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
 		)
-		WHERE rn < 8
+		WHERE rn between #{startPage} and #{endPage}
 		ORDER BY BDNUM DESC
 		]]>
 	</select>
 	
 	<!-- 게시글 조회 -->
 	<select id="selectBoard" parameterType="int" resultType="BoardVO">
-		SELECT * FROM BOARDTABLE
-		WHERE ID = #{bdnum}
+		SELECT BDNUM, TITLE, WRITER, WRITEDATE, CONTENT
+		FROM BOARDTABLE
+		WHERE BDNUM = #{bdnum}
 	</select>
-
+	
+	<!-- 게시글 작성 -->
+	<insert id="insertBoard" parameterType="BoardVO">
+		INSERT INTO BOARDTABLE(
+			BDNUM, 
+			WRITER, 
+			TITLE, 
+			CONTENT,
+			PW
+		)
+		VALUES(
+			board_num_seq.nextval, 
+			#{writer}, 
+			#{title}, 
+			#{content},
+			#{pw}
+		)
+		<selectKey keyProperty="bdnum" resultType="int" order="AFTER">
+			SELECT board_num_seq.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="BoardVO">
+		DELETE FROM BOARDTABLE
+		WHERE WRITER = #{writer}
+	</delete>
+	
 </mapper>
