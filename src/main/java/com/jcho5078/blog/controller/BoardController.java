@@ -28,7 +28,16 @@ public class BoardController {
 	
 	//게시글 조회
 	@RequestMapping(value="board/readboard", method = RequestMethod.GET)
-	public String selectBoard(Model model, BoardVO vo) {
+	public String selectBoard(Model model, BoardVO vo, Principal principal) {
+		
+		CustomUserDetails user = null;
+		
+		if(principal != null) {//유저가 조회했을 경우
+			user = userDAO.login(principal.getName());
+			
+			String writer = user.getName();
+			model.addAttribute("writer", writer);
+		}
 		
 		model.addAttribute("viewBoard", boardService.selectBoard(vo.getBdnum()));
 		
@@ -54,13 +63,11 @@ public class BoardController {
 			vo.setIsuser(0);
 		}else {//회원 글쓰기
 			user = userDAO.login(principal.getName());
-			user.getPassword();
 			
 			am_pw = user.getPassword();
 			
 			vo.setIsuser(1);
 			vo.setWriter(writer);
-			vo.setPw(am_pw);
 		}
 		
 		vo.setTitle(title);

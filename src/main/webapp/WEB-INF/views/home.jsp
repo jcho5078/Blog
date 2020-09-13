@@ -38,7 +38,7 @@
 						<sec:authorize access="isAnonymous()">
 					   		<button type="button" value="유저정보 확인" onclick="location.href='login'">로그인</button>
 						</sec:authorize>
-						
+
 						<!-- only manager access here -->
 						<sec:authorize access="hasAuthority('ROLE_MANAGER')">
 							<h3>*<a href="manage/viewAllUser" >유저 목록 확인(관리자)</a></h3>

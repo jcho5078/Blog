@@ -23,7 +23,7 @@
 	
 	<!-- 게시글 조회 -->
 	<select id="selectBoard" parameterType="int" resultType="BoardVO">
-		SELECT BDNUM, TITLE, WRITER, WRITEDATE, CONTENT
+		SELECT BDNUM, TITLE, WRITER, WRITEDATE, CONTENT, PW, ISUSER
 		FROM BOARDTABLE
 		WHERE BDNUM = #{bdnum}
 	</select>
