@@ -35,24 +35,34 @@
 			WRITER, 
 			TITLE, 
 			CONTENT,
-			PW
+			PW,
+			ISUSER
 		)
 		VALUES(
 			board_num_seq.nextval, 
 			#{writer}, 
 			#{title}, 
 			#{content},
-			#{pw}
+			#{pw},
+			#{isuser}
 		)
 		<selectKey keyProperty="bdnum" resultType="int" order="AFTER">
 			SELECT board_num_seq.CURRVAL FROM DUAL
 		</selectKey>
 	</insert>
 	
-	<!-- 게시글 삭제 -->
+	<!-- 게시글 삭제(유저) -->
+	<delete id="deleteBoardUser" parameterType="BoardVO">
+		DELETE FROM BOARDTABLE
+		WHERE 
+			WRITER = #{writer}
+	</delete>
+	
+	<!-- 게시글 삭제(게스트) -->
 	<delete id="deleteBoard" parameterType="BoardVO">
 		DELETE FROM BOARDTABLE
-		WHERE WRITER = #{writer}
+		WHERE 
+			PW = #{pw}
 	</delete>
 	
 </mapper>

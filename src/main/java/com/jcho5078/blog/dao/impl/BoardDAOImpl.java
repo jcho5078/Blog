@@ -33,9 +33,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
+	public void deleteBoardUser(BoardVO vo) {
+		
+		sqlSession.delete("board.deleteBoardUser", vo);
+	}
+	
+	@Override
 	public void deleteBoard(BoardVO vo) {
 		
 		sqlSession.delete("board.deleteBoard", vo);
 	}
-
 }

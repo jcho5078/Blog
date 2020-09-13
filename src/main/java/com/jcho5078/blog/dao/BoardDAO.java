@@ -13,7 +13,9 @@ public interface BoardDAO {
 	public BoardVO selectBoard(int bdnum);
 	//게시글 작성
 	public void insertBoard(BoardVO vo);
-	//게시글 삭제
+	//게시글 삭제(유저)
+	public void deleteBoardUser(BoardVO vo);
+	//게시글 삭제(게스트)
 	public void deleteBoard(BoardVO vo);
-	
+		
 }

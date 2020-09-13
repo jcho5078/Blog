@@ -8,7 +8,14 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private String writedate;
+	private int isuser; //게스트가 쓴 글인지, 유저가 쓴 글인지 확인용
 	
+	public int getIsuser() {
+		return isuser;
+	}
+	public void setIsuser(int isuser) {
+		this.isuser = isuser;
+	}
 	public String getWriter() {
 		return writer;
 	}

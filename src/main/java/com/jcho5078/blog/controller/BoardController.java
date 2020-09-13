@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jcho5078.blog.dao.BoardDAO;
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.user.CustomUserDetails;
 import com.jcho5078.blog.vo.BoardVO;
-import com.jcho5078.blog.vo.PageVO;
 
 @Controller
 public class BoardController {
@@ -53,12 +51,14 @@ public class BoardController {
 			
 			vo.setWriter(am_writer);
 			vo.setPw(am_pw);
+			vo.setIsuser(0);
 		}else {//회원 글쓰기
 			user = userDAO.login(principal.getName());
 			user.getPassword();
 			
 			am_pw = user.getPassword();
 			
+			vo.setIsuser(1);
 			vo.setWriter(writer);
 			vo.setPw(am_pw);
 		}
@@ -75,12 +75,21 @@ public class BoardController {
 		return url;
 	}
 	
-	//게시글 삭제
-	@RequestMapping(value = "board/delete", method = RequestMethod.POST)
-	public String deleteBoard(BoardVO vo) {
+	//게시글 삭제(유저)
+	@RequestMapping(value = "board/deleteUser", method = RequestMethod.POST)
+	public String deleteBoardUser(BoardVO vo) {
 		
-		boardService.deleteBoard(vo);
+		boardService.deleteBoardUser(vo);
 		
 		return "redirect:/";
 	}
+	
+	//게시글 삭제(게스트)
+		@RequestMapping(value = "board/delete", method = RequestMethod.POST)
+		public String deleteBoard(BoardVO vo) {
+			
+			boardService.deleteBoard(vo);
+			
+			return "redirect:/";
+		}
 }
