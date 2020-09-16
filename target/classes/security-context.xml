@@ -16,7 +16,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	
 	<!-- 로그인 인증 -->
 	<bean id="customAuthenticationProvider" class="com.jcho5078.blog.user.CustomAuthenticationProvider"/>
-	
+	<bean id="userDetails" class="com.jcho5078.blog.user.CustomUserDetails"/>
 	<bean id="userDetailsService" class="com.jcho5078.blog.user.CustomUserDetailsService" />
 	
 	<!-- 인증매니저 customUserDetailsService를 통해 작업 수행 -->

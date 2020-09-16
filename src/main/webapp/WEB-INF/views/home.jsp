@@ -7,7 +7,7 @@
 		<title>Snapshot by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="resources/assets/css/main.css?after" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 	</head>
 	<body>
 		<div class="page-wrap">
@@ -48,8 +48,8 @@
 					<!-- Banner -->
 						<section id="banner">
 							<div class="inner">
-								<h1>Hey, I'm Snapshot</h1>
-								<p>A fully responsive gallery template by TEMPLATED</p>
+								<h1>Galleria</h1>
+								<p>함께하는 즐거움</p>
 								<ul class="actions">
 									<li><a href="#galleries" class="button alt scrolly big">Continue</a></li>
 								</ul>
@@ -62,24 +62,43 @@
 							<!-- Photo Galleries -->
 								<div class="gallery">
 									<header class="special">
-										<h2>What's New</h2>
+										<h2>New Boards</h2>
 
 									</header>
 									
-									<!-- 게시판 출력 -->
-									<c:forEach var="list" items="${BoardList}">
-										<a href="board/readboard?bdnum=${list.bdnum}">${list.title}</a>
-									</c:forEach>
 									
+									<!-- 게시판 출력 -->
 									<div class="content">
-										
-										<div class="media">
-											<a href="resources/images/fulls/01.jpg"><img src="resources/images/thumbs/01.jpg" alt="" title="This right here is a caption." /></a>
-										</div>
+										<c:forEach var="list" items="${BoardList}">
+											<div class="media" style="border: 0.1em dashed #bcbcbc !important;">
+												<div style="margin: 0 0 0.1em 0 !important;">
+													<c:if test="${list.isuser eq 1}">
+														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important; color: blue;">
+															<c:out value="${list.writer}"/>
+														</h5>
+													</c:if>
+													<c:if test="${list.isuser eq 0}">
+														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important;">
+															<c:out value="${list.writer}"/>
+														</h5>
+													</c:if>
+												</div>
+												<div>
+													<button onclick="location.href='board/readboard?bdnum=${list.bdnum}'" style="background: none !important;">
+														<img src="resources/images/thumbs/03.jpg" alt="" title="This right here is a caption." />
+													</button>
+												</div>
+												<div style="margin: 0.5em 0 0 0 !important;">
+													<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important;">
+														${list.title}
+													</h5>
+												</div>
+											</div>
+										</c:forEach>
 										
 									</div>
 									<footer>
-										<a href="gallery.html" class="button big">Full Gallery</a>
+										<a href="${pageContext.request.contextPath}/gallery" class="button big">Best Shots</a>
 									</footer>
 								</div>
 						</section>
@@ -145,7 +164,7 @@
 					<!-- Footer -->
 						<footer id="footer">
 							<div class="copyright">
-								&copy; Untitled Design: <a href="https://templated.co/">TEMPLATED</a>. Images: <a href="https://unsplash.com/">Unsplash</a>.
+								&copy; Code by My git: <a href="https://github.com/jcho5078/Blog">Git</a>. Images: <a href="https://unsplash.com/">Unsplash</a>.
 							</div>
 						</footer>
 				</section>

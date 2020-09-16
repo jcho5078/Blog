@@ -859,7 +859,7 @@
 					transition: transform 0.2s ease-in-out;
 					max-width: 100%;
 					height: auto;
-					vertical-align: middle;
+					/* vertical-align: middle; 에서 수정함 */
 				}
 
 				.gallery .content .media:hover img {

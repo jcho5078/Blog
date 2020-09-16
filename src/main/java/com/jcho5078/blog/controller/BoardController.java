@@ -23,6 +23,8 @@ public class BoardController {
 	private UserDAO userDAO;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private CustomUserDetails user;
 	
 	//HomeController에 메인화면 게시글 출력란 존재.
 	
@@ -30,15 +32,13 @@ public class BoardController {
 	@RequestMapping(value="board/readboard", method = RequestMethod.GET)
 	public String selectBoard(Model model, BoardVO vo, Principal principal) {
 		
-		CustomUserDetails user = null;
-		
 		if(principal != null) {//유저가 조회했을 경우
 			user = userDAO.login(principal.getName());
 			
 			String writer = user.getName();
 			model.addAttribute("writer", writer);
 		}
-		
+		model.addAttribute("bdnum", vo.getBdnum());
 		model.addAttribute("viewBoard", boardService.selectBoard(vo.getBdnum()));
 		
 		return "board/boardView";
@@ -48,8 +48,6 @@ public class BoardController {
 	@RequestMapping(value = "board/insert")
 	public String insertBoard(BoardVO vo, Principal principal,
 			@RequestParam String title, @RequestParam String content, HttpServletRequest request) {
-		
-		CustomUserDetails user = null;
 		
 		String am_pw = request.getParameter("am_pw");
 		String am_writer = request.getParameter("am_writer");
@@ -62,12 +60,10 @@ public class BoardController {
 			vo.setPw(am_pw);
 			vo.setIsuser(0);
 		}else {//회원 글쓰기
-			user = userDAO.login(principal.getName());
-			
-			am_pw = user.getPassword();
 			
 			vo.setIsuser(1);
 			vo.setWriter(writer);
+			vo.setPw("user");
 		}
 		
 		vo.setTitle(title);

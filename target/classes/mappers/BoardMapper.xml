@@ -6,13 +6,13 @@
 <!--  ===========================  게시판   ===============================  -->
 	
 	
-	<!-- 게시판 리스트 출력 -->
+	<!-- 게시판 리스트 출력(페이지 구현 미완) -->
 	<select id="BoardList" parameterType="PageVO" resultType="BoardVO">
 		<![CDATA[
-		SELECT BDNUM, WRITER, TITLE, WRITEDATE
+		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER
 		FROM (
 			SELECT 
-				BDNUM, WRITER, TITLE, WRITEDATE,
+				BDNUM, WRITER, TITLE, WRITEDATE, ISUSER,
 				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
 		)
@@ -56,6 +56,8 @@
 		DELETE FROM BOARDTABLE
 		WHERE 
 			WRITER = #{writer}
+			AND
+			BDNUM = #{bdnum}
 	</delete>
 	
 	<!-- 게시글 삭제(게스트) -->
@@ -63,6 +65,8 @@
 		DELETE FROM BOARDTABLE
 		WHERE 
 			PW = #{pw}
+			AND
+			BDNUM = #{bdnum}
 	</delete>
 	
 </mapper>
