@@ -95,9 +95,35 @@
 												</div>
 											</div>
 										</c:forEach>
-										
+									
 									</div>
+									
 									<footer>
+										<!-- 페이지 구현 -->
+										<div>
+											<ul>
+												<!-- 이전 -->
+												<c:if test="${BoardPage.prevPage}">
+											    	<li style="list-style: none; float: left; padding: 0.5em;">
+											    		<a href="${BoardPage.uriMaker(BoardPage.startPage - 1)}">이전</a>
+											    	</li>
+											    </c:if> 
+												<!-- 페이지 연달아 출력 -->
+												<c:forEach begin="${BoardPage.startPage}" end="${BoardPage.endPage}" var="page">
+													<li style="list-style: none; float: left; padding: 0.5em;">
+														<a href="${BoardPage.uriMaker(page)}">${page}</a>
+													</li>
+												</c:forEach>
+												<!-- 다음 -->
+												<c:if test="${BoardPage.nextPage}">
+											    	<li style="list-style: none; float: left; padding: 0.5em;">
+											    		<a href="${BoardPage.uriMaker(BoardPage.page + 1)}">다음</a>
+											    	</li>
+											    </c:if> 
+											</ul>
+										</div>
+									
+									
 										<a href="${pageContext.request.contextPath}/gallery" class="button big">Best Shots</a>
 									</footer>
 								</div>

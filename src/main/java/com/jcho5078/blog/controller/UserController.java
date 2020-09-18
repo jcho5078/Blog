@@ -47,6 +47,9 @@ public class UserController {
 		System.out.println(vo.getId()+","+vo.getPw()+","+vo.getName());
 		
 		userService.insertUser(vo);
+		
+		userDetailsService = null;
+		
 		return "redirect:/login";
 	}
 	
@@ -74,6 +77,8 @@ public class UserController {
 		vo.setPw(encPw);
 		
 		userService.updatePrivateUser(vo);
+		
+		userDetailsService = null;
 		
 		return "redirect:/";
 	}
@@ -125,6 +130,8 @@ public class UserController {
 		String encPw = userDetailsService.EncodingPw(pw);
 		
 		vo.setPw(encPw);
+		
+		userDetailsService = null;
 		
 		userService.updateUser(vo);
 		return "redirect:/manage/viewAllUser";

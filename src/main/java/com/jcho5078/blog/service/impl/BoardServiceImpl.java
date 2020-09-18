@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jcho5078.blog.dao.BoardDAO;
 import com.jcho5078.blog.service.BoardService;
+import com.jcho5078.blog.vo.BoardNumVO;
 import com.jcho5078.blog.vo.BoardVO;
 import com.jcho5078.blog.vo.PageVO;
 
@@ -15,7 +16,7 @@ public class BoardServiceImpl implements BoardService{
 	BoardDAO boardDAO;
 	
 	@Override
-	public List<BoardVO> BoardList(PageVO vo) {
+	public List<BoardVO> BoardList(BoardNumVO vo) {
 		
 		return boardDAO.BoardList(vo);
 	}
@@ -41,6 +42,12 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteBoard(BoardVO vo) {
 		
 		boardDAO.deleteBoard(vo);
+	}
+
+	@Override
+	public int getCount() {
+		
+		return boardDAO.getCount();
 	}
 
 }

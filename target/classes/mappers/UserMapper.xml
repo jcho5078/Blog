@@ -58,4 +58,11 @@
 		WHERE ID = #{id}
 	</select>
 	
+	<!-- 스프링 시큐리티의 principal을 통한 아이디를 통해 닉네임 반환 -->
+	<select id="getName" parameterType="String" resultType="UserVO">
+		SELECT NAME
+		FROM USERTABLE
+		WHERE ID = #{id}
+	</select>
+	
 </mapper>

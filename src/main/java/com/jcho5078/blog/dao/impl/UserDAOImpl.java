@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.user.CustomUserDetails;
@@ -17,13 +18,17 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public CustomUserDetails login(String id) {
 		
-		return sqlSession.selectOne("user.login", id);
+		CustomUserDetails result = sqlSession.selectOne("user.login", id);
+		
+		return result;
 	}
 
 	@Override
 	public UserVO getEnabled(String id) {
 		
-		return sqlSession.selectOne("user.selectEnabled", id);
+		UserVO result = sqlSession.selectOne("user.selectEnabled", id);
+		
+		return result;
 	}
 
 	@Override
@@ -59,7 +64,9 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public UserVO getUserForm(String id) {
 		
-		return sqlSession.selectOne("user.getUserForm", id);
+		UserVO result = sqlSession.selectOne("user.getUserForm", id);
+		
+		return result;
 	}
 
 	@Override
@@ -74,6 +81,14 @@ public class UserDAOImpl implements UserDAO{
 		}
 		
 		return vo;
+	}
+
+	@Override
+	public UserVO getName(String id) {
+		
+		UserVO result = sqlSession.selectOne("user.getName", id);
+		
+		return result;
 	}
 
 }

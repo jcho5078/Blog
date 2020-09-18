@@ -7,8 +7,7 @@
 	
 	
 	<!-- 게시판 리스트 출력(페이지 구현 미완) -->
-	<select id="BoardList" parameterType="PageVO" resultType="BoardVO">
-		<![CDATA[
+	<select id="BoardList" parameterType="BoardNumVO" resultType="BoardVO">
 		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER
 		FROM (
 			SELECT 
@@ -16,8 +15,16 @@
 				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
 		)
-		WHERE rn between #{startPage} and #{endPage}
+		WHERE rn between #{startNum} and #{endNum}
 		ORDER BY BDNUM DESC
+	</select>
+	
+	<!-- 게시글 카운팅 -->
+	<select id="boardCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(BDNUM)
+			FROM BOARDTABLE
+			WHERE BDNUM > 0
 		]]>
 	</select>
 	

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
-import com.jcho5078.blog.user.CustomUserDetails;
 import com.jcho5078.blog.vo.BoardVO;
 
 @Controller
@@ -23,8 +22,6 @@ public class BoardController {
 	private UserDAO userDAO;
 	@Autowired
 	private BoardService boardService;
-	@Autowired
-	private CustomUserDetails user;
 	
 	//HomeController에 메인화면 게시글 출력란 존재.
 	
@@ -33,10 +30,11 @@ public class BoardController {
 	public String selectBoard(Model model, BoardVO vo, Principal principal) {
 		
 		if(principal != null) {//유저가 조회했을 경우
-			user = userDAO.login(principal.getName());
 			
-			String writer = user.getName();
-			model.addAttribute("writer", writer);
+			String id = principal.getName();
+			String name = userDAO.getName(id).getName();
+			
+			model.addAttribute("writer", name);
 		}
 		model.addAttribute("bdnum", vo.getBdnum());
 		model.addAttribute("viewBoard", boardService.selectBoard(vo.getBdnum()));

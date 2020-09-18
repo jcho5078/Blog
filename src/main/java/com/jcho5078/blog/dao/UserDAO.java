@@ -25,4 +25,6 @@ public interface UserDAO {
 	public void updateUser(UserVO vo);
 	//관리자의 모든 회원 정보 조회
 	public List<UserVO> selectUser(UserVO vo);
+	//스프링 시큐리티의 principal에서 id를 통해 닉네임 가져오기
+	public UserVO getName(String id);
 }

@@ -10,6 +10,7 @@
 		<typeAlias type="com.jcho5078.blog.vo.UserVO" alias="UserVO"/>
 		<typeAlias type="com.jcho5078.blog.user.CustomUserDetails" alias="CustomUserDetails"/>
 		<typeAlias type="com.jcho5078.blog.vo.BoardVO" alias="BoardVO"/>
+		<typeAlias type="com.jcho5078.blog.vo.BoardNumVO" alias="BoardNumVO"/>
 		<typeAlias type="com.jcho5078.blog.vo.PageVO" alias="PageVO"/>
 	</typeAliases>
 	
