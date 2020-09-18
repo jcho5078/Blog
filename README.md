@@ -20,8 +20,8 @@
 
 ### 동작 화면
 
-* -1: 유저와 게스트의 글 차별화.
-  -2: 게시판 페이징
+* 유저와 게스트의 글 차별화
+* 게시판 페이징
 <div>
   <img width="350" src="https://user-images.githubusercontent.com/60742556/93598641-f02de780-f9f7-11ea-8490-06279af69e5f.PNG">
   <img width="350" src="https://user-images.githubusercontent.com/60742556/93598644-f2904180-f9f7-11ea-82c9-2f0cfc69adc9.PNG">
