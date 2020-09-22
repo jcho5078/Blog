@@ -102,10 +102,16 @@
 										<!-- 페이지 구현 -->
 										<div>
 											<ul>
+												<!-- 첫 페이지 -->
+												<c:if test="${BoardPage.prevPage}">
+											    	<li style="list-style: none; float: left; padding: 0.5em;">
+											    		<a href="${BoardPage.uriMaker(BoardPage.startPage)}">첫 페이지</a>
+											    	</li>
+											    </c:if> 
 												<!-- 이전 -->
 												<c:if test="${BoardPage.prevPage}">
 											    	<li style="list-style: none; float: left; padding: 0.5em;">
-											    		<a href="${BoardPage.uriMaker(BoardPage.startPage - 1)}">이전</a>
+											    		<a href="${BoardPage.uriMaker(BoardPage.boardNumVO.getPage() - 1)}">이전</a>
 											    	</li>
 											    </c:if> 
 												<!-- 페이지 연달아 출력 -->
@@ -117,9 +123,15 @@
 												<!-- 다음 -->
 												<c:if test="${BoardPage.nextPage}">
 											    	<li style="list-style: none; float: left; padding: 0.5em;">
-											    		<a href="${BoardPage.uriMaker(BoardPage.page + 1)}">다음</a>
+											    		<a href="${BoardPage.uriMaker(BoardPage.boardNumVO.getPage() + 1)}">다음</a>
 											    	</li>
-											    </c:if> 
+											    </c:if>
+											    <!-- 다음 -->
+												<c:if test="${BoardPage.nextPage}">
+											    	<li style="list-style: none; float: left; padding: 0.5em;">
+											    		<a href="${BoardPage.uriMaker(BoardPage.endPage)}">마지막 페이지</a>
+											    	</li>
+											    </c:if>
 											</ul>
 										</div>
 									
@@ -136,7 +148,7 @@
 						<section id="contact">
 							<!-- Social -->
 								<div class="social column">
-									<h3>About Me</h3>
+									<h3>여백</h3>
 									<p>Mus sed interdum nunc dictum rutrum scelerisque erat a parturient condimentum potenti dapibus vestibulum condimentum per tristique porta. Torquent a ut consectetur a vel ullamcorper a commodo a mattis ipsum class quam sed eros vestibulum quisque a eu nulla scelerisque a elementum vestibulum.</p>
 									<p>Aliquet dolor ultricies sem rhoncus dolor ullamcorper pharetra dis condimentum ullamcorper rutrum vehicula id nisi vel aptent orci litora hendrerit penatibus erat ad sit. In a semper velit eleifend a viverra adipiscing a phasellus urna praesent parturient integer ultrices montes parturient suscipit posuere quis aenean. Parturient euismod ultricies commodo arcu elementum suspendisse id dictumst at ut vestibulum conubia quisque a himenaeos dictum proin dis purus integer mollis parturient eros scelerisque dis libero parturient magnis.</p>
 									<h3>Follow Me</h3>
