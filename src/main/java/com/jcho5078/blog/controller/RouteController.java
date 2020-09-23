@@ -29,4 +29,16 @@ public class RouteController {
 		
 		return "user/signUp";
 	}
+	
+	@RequestMapping("404")
+	public String moveError404() {
+		
+		return "error/error404";
+	}
+	
+	@RequestMapping("500")
+	public String moveError500() {
+		
+		return "error/error500";
+	}
 }

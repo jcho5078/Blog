@@ -49,6 +49,22 @@
         <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
 
+	<!-- Error 처리 페이지 -->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/views/error/error.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500</location>
+	</error-page>
+
 	
 	<!-- Spring Security Filter -->
 	<filter>
