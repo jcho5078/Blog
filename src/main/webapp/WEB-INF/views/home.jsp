@@ -74,12 +74,14 @@
 												<div style="margin: 0 0 0.1em 0 !important;">
 													<c:if test="${list.isuser eq 1}">
 														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important; color: blue;">
-															<c:out value="${list.writer}"/>
+															글쓴이: <c:out value="${list.writer}"/><br>
+															조회수: <c:out value="${list.viewCount}"/>
 														</h5>
 													</c:if>
 													<c:if test="${list.isuser eq 0}">
 														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important;">
-															<c:out value="${list.writer}"/>
+															글쓴이: <c:out value="${list.writer}"/><br>
+															조회수: <c:out value="${list.viewCount}"/>
 														</h5>
 													</c:if>
 												</div>
@@ -89,8 +91,8 @@
 													</button>
 												</div>
 												<div style="margin: 0.5em 0 0 0 !important;">
-													<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important;">
-														${list.title}
+													<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important; font-size: 20px;">
+														<c:out value="${list.title}"/>
 													</h5>
 												</div>
 											</div>

@@ -50,6 +50,12 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+	
 	<bean id="BoardDAO" class="com.jcho5078.blog.dao.impl.BoardDAOImpl"/>
 	<bean id="BoardService" class="com.jcho5078.blog.service.impl.BoardServiceImpl"/>
 	<bean id="UserDAO" class="com.jcho5078.blog.dao.impl.UserDAOImpl"/>

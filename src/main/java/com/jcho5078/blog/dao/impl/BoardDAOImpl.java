@@ -55,4 +55,10 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		return sqlSession.selectOne("board.boardCount");
 	}
+
+	@Override
+	public void countView(int bdnum) {
+		
+		sqlSession.update("board.boardViewCount", bdnum);
+	}
 }

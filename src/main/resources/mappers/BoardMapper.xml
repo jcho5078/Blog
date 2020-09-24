@@ -8,10 +8,10 @@
 	
 	<!-- 게시판 리스트 출력(페이지 구현 미완) -->
 	<select id="BoardList" parameterType="BoardNumVO" resultType="BoardVO">
-		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER
+		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount
 		FROM (
 			SELECT 
-				BDNUM, WRITER, TITLE, WRITEDATE, ISUSER,
+				BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount,
 				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
 		)
@@ -30,10 +30,17 @@
 	
 	<!-- 게시글 조회 -->
 	<select id="selectBoard" parameterType="int" resultType="BoardVO">
-		SELECT BDNUM, TITLE, WRITER, WRITEDATE, CONTENT, PW, ISUSER
+		SELECT BDNUM, TITLE, WRITER, WRITEDATE, CONTENT, PW, ISUSER, viewCount
 		FROM BOARDTABLE
 		WHERE BDNUM = #{bdnum}
 	</select>
+	
+	<!-- 게시판 조회수 -->
+	<update id="boardViewCount" parameterType="int">
+		UPDATE BOARDTABLE SET
+		viewCount = viewCount + 1
+		WHERE BDNUM = #{bdnum}
+	</update>
 	
 	<!-- 게시글 작성 -->
 	<insert id="insertBoard" parameterType="BoardVO">

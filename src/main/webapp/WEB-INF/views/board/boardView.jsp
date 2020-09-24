@@ -81,6 +81,11 @@
 										</td>
 									</tr>
 									<tr>
+										<td style="font-size: 0.6em;">
+											조회수: <c:out value="${viewBoard.viewCount}"/>
+										</td>
+									</tr>
+									<tr>
 										<th>
 											<h3 style="margin: 0 0 0 0 !important;"><c:out value="${viewBoard.title}"/></h3>
 										</th>

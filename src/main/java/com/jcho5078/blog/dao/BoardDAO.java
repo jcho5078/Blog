@@ -20,5 +20,6 @@ public interface BoardDAO {
 	public void deleteBoardUser(BoardVO vo);
 	//게시글 삭제(게스트)
 	public void deleteBoard(BoardVO vo);
-		
+	//게시판 조회수
+	public void countView(int bdnum);
 }
