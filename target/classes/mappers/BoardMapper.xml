@@ -6,7 +6,7 @@
 <!--  ===========================  게시판   ===============================  -->
 	
 	
-	<!-- 게시판 리스트 출력(페이지 구현 미완) -->
+	<!-- 게시판 리스트 출력 -->
 	<select id="BoardList" parameterType="BoardNumVO" resultType="BoardVO">
 		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount
 		FROM (
@@ -73,6 +73,40 @@
 			AND
 			BDNUM = #{bdnum}
 	</delete>
+	
+	<!-- 댓글 출력 -->
+	<select id="selectComm" parameterType="int" resultType="CommVO">
+		SELECT
+			BDNUM, WRITER, BOARDCOMMENT, isUser
+		FROM
+			COMM
+		WHERE BDNUM = #{bdnum}
+	</select>
+	
+	<!-- 댓글 카운트 -->
+	<select id="countComm" parameterType="int" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			COMM
+		WHERE BDNUM = #{bdnum}
+	</select>
+	
+	<!-- 댓글 작성 -->
+	<insert id="insertComment" parameterType="CommVO">
+		INSERT INTO COMM(
+			BDNUM,
+			WRITER,
+			BOARDCOMMENT,
+			isUser
+		)
+		VALUES(
+			#{bdnum},
+			#{writer},
+			#{boardComment},
+			#{isUser}
+		)
+	</insert>
 	
 	<!-- 게시글 삭제(게스트) -->
 	<delete id="deleteBoard" parameterType="BoardVO">

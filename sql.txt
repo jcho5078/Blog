@@ -16,7 +16,8 @@ Create table BoardTable(
 	title varchar(150) not null,
 	content varchar(3000) not null,
 	writedate date default sysdate,
-	isUser number default 1
+	isUser number default 1,
+	viewCount number default 0
 );
 
 //게시판 번호 시퀀스
@@ -24,3 +25,11 @@ Create Sequence board_num_seq
 	start with 1
 	increment by 1;
 
+//게시판 댓글 테이블
+create table comm(
+	bdnum number,
+	writer varchar(50),
+	boardComment varchar(1000),
+	isUser number default 0,
+	constraint fk_comment FOREIGN KEY(bdnum) references boardtable(bdnum) on delete cascade
+);

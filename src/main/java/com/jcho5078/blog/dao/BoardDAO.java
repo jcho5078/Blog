@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jcho5078.blog.vo.BoardNumVO;
 import com.jcho5078.blog.vo.BoardVO;
+import com.jcho5078.blog.vo.CommVO;
 import com.jcho5078.blog.vo.PageVO;
 
 public interface BoardDAO {
@@ -22,4 +23,10 @@ public interface BoardDAO {
 	public void deleteBoard(BoardVO vo);
 	//게시판 조회수
 	public void countView(int bdnum);
+	//댓글 리스트 출력
+	public List<CommVO> CommList(int bdnum);
+	//댓글 카운트
+	public int countComm(int bdnum);
+	//댓글 작성
+	public void insertComm(CommVO vo);
 }

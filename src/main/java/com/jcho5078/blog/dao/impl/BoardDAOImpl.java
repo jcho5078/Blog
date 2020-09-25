@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.jcho5078.blog.dao.BoardDAO;
 import com.jcho5078.blog.vo.BoardNumVO;
 import com.jcho5078.blog.vo.BoardVO;
+import com.jcho5078.blog.vo.CommVO;
 import com.jcho5078.blog.vo.PageVO;
 
 public class BoardDAOImpl implements BoardDAO {
@@ -60,5 +61,23 @@ public class BoardDAOImpl implements BoardDAO {
 	public void countView(int bdnum) {
 		
 		sqlSession.update("board.boardViewCount", bdnum);
+	}
+
+	@Override
+	public List<CommVO> CommList(int bdnum) {
+		
+		return sqlSession.selectList("board.selectComm", bdnum);
+	}
+
+	@Override
+	public void insertComm(CommVO vo) {
+		
+		sqlSession.insert("board.insertComment", vo);
+	}
+
+	@Override
+	public int countComm(int bdnum) {
+		
+		return sqlSession.selectOne("board.countComm", bdnum);
 	}
 }

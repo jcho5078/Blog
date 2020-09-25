@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.vo.BoardVO;
+import com.jcho5078.blog.vo.CommVO;
 
 @Controller
 public class BoardController {
@@ -30,14 +31,18 @@ public class BoardController {
 	public String selectBoard(Model model, BoardVO vo, Principal principal) {
 		
 		if(principal != null) {//유저가 조회했을 경우
-			
+		
 			String id = principal.getName();
 			String name = userDAO.getName(id).getName();
 			
 			model.addAttribute("writer", name);
+		}else {
+			model.addAttribute("writer", null);
 		}
 		model.addAttribute("bdnum", vo.getBdnum());
 		model.addAttribute("viewBoard", boardService.selectBoard(vo.getBdnum()));
+		model.addAttribute("CommentList", boardService.CommList(vo.getBdnum()));
+		model.addAttribute("countComm", boardService.countComm(vo.getBdnum()));
 		
 		return "board/boardView";
 	}
@@ -86,11 +91,21 @@ public class BoardController {
 	}
 	
 	//게시글 삭제(게스트)
-		@RequestMapping(value = "board/delete", method = RequestMethod.POST)
-		public String deleteBoard(BoardVO vo) {
-			
-			boardService.deleteBoard(vo);
-			
-			return "redirect:/";
-		}
+	@RequestMapping(value = "board/delete", method = RequestMethod.POST)
+	public String deleteBoard(BoardVO vo) {
+		
+		boardService.deleteBoard(vo);
+		
+		return "redirect:/";
+	}
+	
+	//댓글 입력
+	@RequestMapping(value = "board/insertComm", method = RequestMethod.POST)
+	public String insertComm(CommVO vo) {
+		
+		boardService.insertComm(vo);
+		String url = "redirect:/board/readboard?bdnum="+vo.getBdnum();
+		
+		return url;
+	}
 }

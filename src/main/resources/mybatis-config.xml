@@ -12,6 +12,7 @@
 		<typeAlias type="com.jcho5078.blog.vo.BoardVO" alias="BoardVO"/>
 		<typeAlias type="com.jcho5078.blog.vo.BoardNumVO" alias="BoardNumVO"/>
 		<typeAlias type="com.jcho5078.blog.vo.PageVO" alias="PageVO"/>
+		<typeAlias type="com.jcho5078.blog.vo.CommVO" alias="CommVO"/>
 	</typeAliases>
 	
 </configuration>

@@ -10,14 +10,13 @@ import com.jcho5078.blog.dao.BoardDAO;
 import com.jcho5078.blog.service.BoardService;
 import com.jcho5078.blog.vo.BoardNumVO;
 import com.jcho5078.blog.vo.BoardVO;
-import com.jcho5078.blog.vo.PageVO;
+import com.jcho5078.blog.vo.CommVO;
 
 public class BoardServiceImpl implements BoardService{
 
 	@Autowired
 	BoardDAO boardDAO;
 	
-	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public List<BoardVO> BoardList(BoardNumVO vo) {
 		
@@ -53,5 +52,23 @@ public class BoardServiceImpl implements BoardService{
 	public int getCount() {
 		
 		return boardDAO.getCount();
+	}
+
+	@Override
+	public List<CommVO> CommList(int bdnum) {
+		
+		return boardDAO.CommList(bdnum);
+	}
+
+	@Override
+	public void insertComm(CommVO vo) {
+		
+		boardDAO.insertComm(vo);
+	}
+
+	@Override
+	public int countComm(int bdnum) {
+		
+		return boardDAO.countComm(bdnum);
 	}
 }

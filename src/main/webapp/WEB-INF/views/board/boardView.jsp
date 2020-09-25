@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>${viewBoard.title}</title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
@@ -48,7 +48,7 @@
 						
 						<!-- if you doesn't login before -->
 						<sec:authorize access="isAnonymous()">
-					   		<button type="button" value="유저정보 확인" onclick="location.href='login'">로그인</button>
+					   		<button type="button" value="유저정보 확인" onclick="location.href='${pageContext.request.contextPath}/login'">로그인</button>
 						</sec:authorize>
 
 						<!-- only manager access here -->
@@ -76,8 +76,19 @@
 								<table border="1">
 									<tr>
 										<td style="font-size: 0.7em;">
-											작성자: <c:out value="${viewBoard.writer}"/><br>
-											작성 날짜: <c:out value="${viewBoard.writedate}"/>
+											<c:set var="isUser" value="${viewBoard.isuser}" />
+											<c:if test="${isUser eq 0}">
+												<div>
+													작성자: <c:out value="${viewBoard.writer}"/><br>
+												</div>
+												작성 날짜: <c:out value="${viewBoard.writedate}"/>
+											</c:if>
+											<c:if test="${isUser eq 1}">
+												<div style="color: blue;">
+													작성자: <c:out value="${viewBoard.writer}"/><br>
+												</div>
+												작성 날짜: <c:out value="${viewBoard.writedate}"/>
+											</c:if>
 										</td>
 									</tr>
 									<tr>
@@ -125,6 +136,53 @@
 								</c:if>
 								<br>
 								</div>
+								
+								<!-- 댓글 리스트 출력 -->
+								<div>
+									<hr>
+									<h3>댓글 <c:out value="${countComm}"/>개</h3>
+									<c:forEach var="comment" items="${CommentList}">
+										<div>
+											<div>
+												<c:if test="${comment.isUser eq 0}">
+													작성자: <h5 style="display: inline;"><c:out value="${comment.writer}"/></h5>
+												</c:if>
+												<c:if test="${comment.isUser eq 1}">
+													작성자: <h5 style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
+												</c:if>
+											</div>
+											<p><c:out value="${comment.boardComment}"/></p>
+										</div>
+										<hr>
+									</c:forEach>
+								</div>
+								
+								<!-- 댓글 입력Form -->
+								<form action="insertComm" id="insertComm" method="post">
+									<div>
+										<div>
+											<c:set var="currentUser" value="${writer}"/>
+											<c:if test="${currentUser ne null}">
+												작성자: 
+												<h5 id="writer_Comm_get_User" style="color: blue;">
+													<c:out value="${writer}"/>
+												</h5>
+											</c:if>
+											<c:if test="${currentUser eq null}">
+												작성자: 
+												<h5 id="writer_Comm_get">
+													<input type="text" id="writer_Comm_notuser">
+												</h5>
+											</c:if>
+											<input type="hidden" name="bdnum" id="bdnum_Comm">
+											<input type="hidden" name="writer" id="writer_Comm">
+											<input type="hidden" name="isUser" id="isUser_Comm">
+											
+										</div>
+										<textarea name="boardComment" rows="3" placeholder="댓글 작성"></textarea>
+										<button type="button" id="comment_submit">댓글 작성</button>
+									</div>
+								</form>
 							</div>
 						</section>
 						
@@ -162,6 +220,29 @@
 			$('#bdnum').val(bdnum);
 			
 			$('#delUserForm').submit();
+		});
+		
+		$('#comment_submit').click(function(e){
+			
+			var bdnum = ${bdnum};
+			
+			if($('#writer_Comm_get_User').val() == null){
+				var writer = $('#writer_Comm_notuser').val();
+			}else{
+				var writer = $('#writer_Comm_get_User').text();
+				$('#isUser_Comm').val(1);
+			}
+			
+			$('#writer_Comm').val(writer);
+			$('#bdnum_Comm').val(bdnum);
+			
+			var wr = $('#writer_Comm').val();
+			var bn = $('#bdnum_Comm').val();
+			
+			console.log(wr);
+			console.log(bn);
+			
+			$('#insertComm').submit();
 		});
 	</script>
 </body>
