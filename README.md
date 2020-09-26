@@ -26,7 +26,7 @@
 * 조회수, 댓글 수 등 확인 가능.
 
 <div>
-  <img width="350" height="350" src="https://user-images.githubusercontent.com/60742556/94341870-ed5e7280-0047-11eb-8f65-5e6dc123f3f4.PNG">
-  <img width="350" height="350" src="https://user-images.githubusercontent.com/60742556/94341871-ef283600-0047-11eb-886f-4ddbde5a922b.PNG">
-  <img width="350" height="350" src="https://user-images.githubusercontent.com/60742556/94341872-ef283600-0047-11eb-8df3-681a0a0f287b.PNG">
+  <img width="30%"  src="https://user-images.githubusercontent.com/60742556/94341870-ed5e7280-0047-11eb-8f65-5e6dc123f3f4.PNG">
+  <img width="30%"  src="https://user-images.githubusercontent.com/60742556/94341871-ef283600-0047-11eb-886f-4ddbde5a922b.PNG">
+  <img width="30%"  src="https://user-images.githubusercontent.com/60742556/94341872-ef283600-0047-11eb-8df3-681a0a0f287b.PNG">
 </div>
