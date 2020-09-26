@@ -29,4 +29,8 @@ public interface BoardDAO {
 	public int countComm(int bdnum);
 	//댓글 작성
 	public void insertComm(CommVO vo);
+	//게시글 댓글갯수 카운트
+	public void insertBoardCommCount(int bdnum);
+	//댓글 번호 증가를 위해 현재 게시글의 댓글 번호 최대값 가져오기
+	public int getMaxCommNo(int bdnum);
 }

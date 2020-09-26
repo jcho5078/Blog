@@ -73,15 +73,17 @@
 											<div class="media" style="border: 0.1em dashed #bcbcbc !important;">
 												<div style="margin: 0 0 0.1em 0 !important;">
 													<c:if test="${list.isuser eq 1}">
-														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important; color: blue;">
-															글쓴이: <c:out value="${list.writer}"/><br>
-															조회수: <c:out value="${list.viewCount}"/>
+														<p style="margin: 0 0 0 0; font-size: 0.7em"><c:out value="# ${list.bdnum}"/></p>
+														<p style="margin: 0 0 0 0; font-size: 0.6em">조회수: <c:out value="${list.viewCount}"/></p>
+														<h5 align="center" style="left: 40%; margin: 0 0 0 0 !important; color: blue;">
+															by <c:out value="${list.writer}"/><br>
 														</h5>
 													</c:if>
 													<c:if test="${list.isuser eq 0}">
-														<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important;">
-															글쓴이: <c:out value="${list.writer}"/><br>
-															조회수: <c:out value="${list.viewCount}"/>
+														<p style="margin: 0 0 0 0; font-size: 0.7em"><c:out value="# ${list.bdnum}"/></p>
+														<p style="margin: 0 0 0 0; font-size: 0.6em">조회수: <c:out value="${list.viewCount}"/></p>
+														<h5 align="center" style="left: 40%; margin: 0 0 0 0 !important;">
+															by <c:out value="${list.writer}"/><br>
 														</h5>
 													</c:if>
 												</div>
@@ -91,9 +93,10 @@
 													</button>
 												</div>
 												<div style="margin: 0.5em 0 0 0 !important;">
-													<h5 align="center" style="bottom: 0; left: 40%; margin: 0 0 0 0 !important; font-size: 20px;">
+													<h5 align="center" style="bottom: 0; left: 40%; margin:0 0 0 0 !important; font-size: 20px;">
 														<c:out value="${list.title}"/>
 													</h5>
+													<c:out value="+ ${list.cnt}"/>
 												</div>
 											</div>
 										</c:forEach>
@@ -176,7 +179,7 @@
 											
 											<sec:authorize access="isAuthenticated()">
 												<label>Name</label>
-												<h4 id="username" name="username"><c:out value="${name}"/></h4>
+												<h4 id="username" name="username" style="color: blue;"><c:out value="${name}"/></h4>
 												<input type="hidden" id="writer" name="writer">
 											</sec:authorize>
 										</div>
@@ -195,7 +198,6 @@
 												<button type="button" id="submitBtn">작성 완료</button>
 											</li>
 										</ul>
-		
 								</div>
 
 						</section>

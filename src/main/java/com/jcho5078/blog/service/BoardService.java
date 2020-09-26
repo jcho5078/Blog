@@ -27,4 +27,6 @@ public interface BoardService {
 	public int countComm(int bdnum);
 	//댓글 작성
 	public void insertComm(CommVO vo);
+	//게시글 댓글갯수 카운트
+	public void insertBoardCommCount(int bdnum);
 }

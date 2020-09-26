@@ -5,7 +5,28 @@ public class CommVO {
 	private String writer;
 	private String boardComment;
 	private int isUser;
+	private int count_comm;
+	private int pw;
+	private int no;
 	
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
+	public int getPw() {
+		return pw;
+	}
+	public void setPw(int pw) {
+		this.pw = pw;
+	}
+	public int getCount_comm() {
+		return count_comm;
+	}
+	public void setCount_comm(int count_comm) {
+		this.count_comm = count_comm;
+	}
 	public int getBdnum() {
 		return bdnum;
 	}

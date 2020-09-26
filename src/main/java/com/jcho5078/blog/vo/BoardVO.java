@@ -10,7 +10,14 @@ public class BoardVO {
 	private String writedate;
 	private int isuser; //게스트가 쓴 글인지, 유저가 쓴 글인지 확인용
 	private int viewCount;//조회수
+	private int cnt;//댓글 갯수 카운트
 	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	public int getViewCount() {
 		return viewCount;
 	}

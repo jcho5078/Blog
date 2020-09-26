@@ -142,17 +142,31 @@
 									<hr>
 									<h3>댓글 <c:out value="${countComm}"/>개</h3>
 									<c:forEach var="comment" items="${CommentList}">
-										<div>
+										<form action="deleteComm" id="each_boardComment">
+											<p style="font-size: 0.5em;"><c:out value="# ${comment.no}"/></p>
 											<div>
+												<div>
+													<c:if test="${comment.isUser eq 0}">
+														작성자: <h5 id="writer_commlist_guest" style="display: inline;"><c:out value="${comment.writer}"/></h5>
+													</c:if>
+													<c:if test="${comment.isUser eq 1}">
+														작성자: <h5 id="writer_commlist_user" style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
+													</c:if>
+												</div>
+												<p id="boardComment_list"><c:out value="${comment.boardComment}"/></p>
+												
 												<c:if test="${comment.isUser eq 0}">
-													작성자: <h5 style="display: inline;"><c:out value="${comment.writer}"/></h5>
+													<input type="password" id="pw_bdnumComm" placeholder="pw" style="width: 20em;">
 												</c:if>
-												<c:if test="${comment.isUser eq 1}">
-													작성자: <h5 style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
-												</c:if>
+												<button type="button" id="delete_boardComment_submit">댓글 삭제</button>
 											</div>
-											<p><c:out value="${comment.boardComment}"/></p>
-										</div>
+											
+											<input type="hidden" name="writer" id="boardComment_writer">
+											<input type="hidden" name="bdnum" id="bdnumComm">
+											<input type="hidden" name="boardComment" id="input_comm_list">
+											<input type="hidden" name="pw" id="pw_Comm_list">
+											
+										</form>
 										<hr>
 									</c:forEach>
 								</div>
@@ -162,24 +176,29 @@
 									<div>
 										<div>
 											<c:set var="currentUser" value="${writer}"/>
+											<!-- 유저 -->
 											<c:if test="${currentUser ne null}">
 												작성자: 
 												<h5 id="writer_Comm_get_User" style="color: blue;">
 													<c:out value="${writer}"/>
 												</h5>
 											</c:if>
+											
+											<!-- 게스트 -->
 											<c:if test="${currentUser eq null}">
 												작성자: 
 												<h5 id="writer_Comm_get">
-													<input type="text" id="writer_Comm_notuser">
+													<input type="text" id="writer_Comm_notuser" placeholder="name" style="width: 20em;">
 												</h5>
+												<input type="password" id="pw_Comm_notuser" placeholder="pw" style="width: 20em;"><br>
 											</c:if>
 											<input type="hidden" name="bdnum" id="bdnum_Comm">
 											<input type="hidden" name="writer" id="writer_Comm">
 											<input type="hidden" name="isUser" id="isUser_Comm">
+											<input type="hidden" name="pw" id="pw_Comm">
 											
 										</div>
-										<textarea name="boardComment" rows="3" placeholder="댓글 작성"></textarea>
+										<textarea name="boardComment" id="boardComment" rows="3" placeholder="댓글 작성"></textarea>
 										<button type="button" id="comment_submit">댓글 작성</button>
 									</div>
 								</form>
@@ -225,9 +244,12 @@
 		$('#comment_submit').click(function(e){
 			
 			var bdnum = ${bdnum};
+			var pw = 0;
 			
 			if($('#writer_Comm_get_User').val() == null){
 				var writer = $('#writer_Comm_notuser').val();
+				$('#isUser_Comm').val(0);
+				pw = $('#pw_Comm_notuser').val();
 			}else{
 				var writer = $('#writer_Comm_get_User').text();
 				$('#isUser_Comm').val(1);
@@ -235,15 +257,58 @@
 			
 			$('#writer_Comm').val(writer);
 			$('#bdnum_Comm').val(bdnum);
+			$('#pw_Comm').val(pw);
 			
 			var wr = $('#writer_Comm').val();
 			var bn = $('#bdnum_Comm').val();
+			var con = $('#boardComment').val();
+			var is = $('#isUser_Comm').val();
 			
 			console.log(wr);
 			console.log(bn);
+			console.log(con);
+			console.log(is);
+			console.log(pw);
 			
 			$('#insertComm').submit();
 		});
+		
+		$('#delete_boardComment_submit').click(function(e){
+			
+			
+			var bdnum = ${bdnum};
+			
+			$('#bdnumComm').val(bdnum);
+			
+			if($('#writer_Comm_get_User').val() == null){
+				var writer = $('#writer_commlist_guest').text();
+				pw = $('#pw_Comm_notuser').val();
+			}else{
+				var writer = $('#writer_commlist_user').text();
+			}
+			
+			$('#boardComment_writer').val(writer);
+			
+			var comment = $('#boardComment_list').val();
+			
+			$('#input_comm_list').val(comment);
+			
+			var pw = $('#pw_bdnumComm').val();
+			
+			if(pw == aa){
+				
+				console.log('비밀번호 일치!');
+				$('#pw_Comm_list').val(pw);
+				
+			}else{
+				
+				console.log('비밀번호 불일치!');
+				$('#pw_Comm_list').val(0);
+			}
+			
+			$('#deleteComm').submit();
+		});
+		
 	</script>
 </body>
 </html>

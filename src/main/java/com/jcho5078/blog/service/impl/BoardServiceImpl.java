@@ -60,8 +60,13 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.CommList(bdnum);
 	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public void insertComm(CommVO vo) {
+		
+		int no = boardDAO.getMaxCommNo(vo.getBdnum()) + 1;
+		
+		vo.setNo(no);
 		
 		boardDAO.insertComm(vo);
 	}
@@ -70,5 +75,11 @@ public class BoardServiceImpl implements BoardService{
 	public int countComm(int bdnum) {
 		
 		return boardDAO.countComm(bdnum);
+	}
+
+	@Override
+	public void insertBoardCommCount(int bdnum) {
+		
+		boardDAO.insertBoardCommCount(bdnum);
 	}
 }

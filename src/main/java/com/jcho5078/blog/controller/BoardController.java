@@ -99,11 +99,24 @@ public class BoardController {
 		return "redirect:/";
 	}
 	
-	//댓글 입력
+	//댓글 입력 (게시글 댓글 카운트 이 메소드에 넣기)
 	@RequestMapping(value = "board/insertComm", method = RequestMethod.POST)
 	public String insertComm(CommVO vo) {
 		
+		boardService.insertBoardCommCount(vo.getBdnum());
+
 		boardService.insertComm(vo);
+		
+		String url = "redirect:/board/readboard?bdnum="+vo.getBdnum();
+		
+		return url;
+	}
+	
+	@RequestMapping(value = "board/deleteComm", method = RequestMethod.POST)
+	public String deleteComm(CommVO vo) {
+		
+		
+		
 		String url = "redirect:/board/readboard?bdnum="+vo.getBdnum();
 		
 		return url;

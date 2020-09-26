@@ -5,6 +5,8 @@ Create table UserTable(
 	hiredate date,
 	name varchar(50) not null,
 	authority varchar(50) default 'ROLE_USER' not null,
+	viewCount number default 0,
+	CNT number default 0,
 	enabled number(1) default 1 constraint boolean_verified check(enabled in (0,1))
 );
 
@@ -28,8 +30,10 @@ Create Sequence board_num_seq
 //게시판 댓글 테이블
 create table comm(
 	bdnum number,
+	no number default 1,
 	writer varchar(50),
 	boardComment varchar(1000),
 	isUser number default 0,
+	pw number default 0,
 	constraint fk_comment FOREIGN KEY(bdnum) references boardtable(bdnum) on delete cascade
 );

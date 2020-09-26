@@ -80,4 +80,16 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		return sqlSession.selectOne("board.countComm", bdnum);
 	}
+
+	@Override
+	public void insertBoardCommCount(int bdnum) {
+		
+		sqlSession.update("board.insertBoardCommCount", bdnum);
+	}
+
+	@Override
+	public int getMaxCommNo(int bdnum) {
+		
+		return sqlSession.selectOne("board.getMaxCommNo", bdnum);
+	}
 }

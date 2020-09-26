@@ -8,16 +8,23 @@
 	
 	<!-- 게시판 리스트 출력 -->
 	<select id="BoardList" parameterType="BoardNumVO" resultType="BoardVO">
-		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount
+		SELECT BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount, CNT
 		FROM (
 			SELECT 
-				BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount,
+				BDNUM, WRITER, TITLE, WRITEDATE, ISUSER, viewCount, CNT,
 				ROW_NUMBER() OVER(ORDER BY BDNUM DESC) AS rn
 			FROM BOARDTABLE
 		)
 		WHERE rn between #{startNum} and #{endNum}
 		ORDER BY BDNUM DESC
 	</select>
+	
+	<!-- 게시글 리스트 댓글 갯수 기록 -->
+	<update id="insertBoardCommCount" parameterType="int">
+		UPDATE BOARDTABLE SET
+		CNT = CNT + 1
+		WHERE BDNUM = #{bdnum}
+	</update>
 	
 	<!-- 게시글 카운팅 -->
 	<select id="boardCount" resultType="int">
@@ -74,13 +81,23 @@
 			BDNUM = #{bdnum}
 	</delete>
 	
+	<!-- 게시글 삭제(게스트) -->
+	<delete id="deleteBoard" parameterType="BoardVO">
+		DELETE FROM BOARDTABLE
+		WHERE 
+			PW = #{pw}
+			AND
+			BDNUM = #{bdnum}
+	</delete>
+	
 	<!-- 댓글 출력 -->
 	<select id="selectComm" parameterType="int" resultType="CommVO">
 		SELECT
-			BDNUM, WRITER, BOARDCOMMENT, isUser
+			BDNUM, WRITER, BOARDCOMMENT, isUser, PW, NO
 		FROM
 			COMM
 		WHERE BDNUM = #{bdnum}
+		ORDER BY NO ASC
 	</select>
 	
 	<!-- 댓글 카운트 -->
@@ -98,23 +115,36 @@
 			BDNUM,
 			WRITER,
 			BOARDCOMMENT,
-			isUser
+			isUser,
+			PW,
+			NO
 		)
 		VALUES(
 			#{bdnum},
 			#{writer},
 			#{boardComment},
-			#{isUser}
+			#{isUser},
+			#{pw},
+			#{no}
 		)
 	</insert>
 	
-	<!-- 게시글 삭제(게스트) -->
-	<delete id="deleteBoard" parameterType="BoardVO">
-		DELETE FROM BOARDTABLE
+	<!-- 댓글 번호 증가를 위해 현재 게시글의 댓글 번호 최대값 가져오기 -->
+	<select id="getMaxCommNo" parameterType="int"  resultType="int">
+		SELECT MAX(NO)
+		FROM COMM
+		WHERE BDNUM = #{bdnum}
+	</select>
+	
+	<!-- 댓글 삭제(미완성. jsp에 NO 속성도 추가해야함.) -->
+	<delete id="deleteComment" parameterType="CommVO">
+		DELETE FROM COMM
 		WHERE 
-			PW = #{pw}
-			AND
-			BDNUM = #{bdnum}
+			BDNUM = #{bdnum},
+			WRITER = #{writer},
+			PW = #{pw},
+			BOARDCOMMENT = #{boardComment}
 	</delete>
+	
 	
 </mapper>
