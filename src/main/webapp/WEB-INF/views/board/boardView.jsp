@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page import="java.security.Principal" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
@@ -35,14 +36,15 @@
 
 			<!-- Main -->
 				<section id="main">
+				<c:set var="currentUser" value="${writer}"/>
 					<!-- Header -->
 					<header id="header">
 						<!-- if you login before -->
 						<sec:authorize access="isAuthenticated()">
 							<form action="${pageContext.request.contextPath}/logout" method="POST" class="logout_form">
-								<c:out value="${name}님 환영합니다"/>
+								<c:out value="${currentUser}님 환영합니다"/>
 						   		<button type="submit">로그아웃</button>
-						   		<button type="button" value="유저정보 확인" onclick="location.href='user/userForm'">유저정보 확인</button>
+						   		<button type="button" value="유저정보 확인" onclick="location.href='${pageContext.request.contextPath}/user/userForm'">유저정보 확인</button>
 							</form>
 						</sec:authorize>
 						
@@ -142,31 +144,33 @@
 									<hr>
 									<h3>댓글 <c:out value="${countComm}"/>개</h3>
 									<c:forEach var="comment" items="${CommentList}">
-										<form action="deleteComm" id="each_boardComment">
-											<p style="font-size: 0.5em;"><c:out value="# ${comment.no}"/></p>
+										<p style="font-size: 0.5em;"><c:out value="# ${comment.no}"/></p>
+										<div>
 											<div>
-												<div>
-													<c:if test="${comment.isUser eq 0}">
-														작성자: <h5 id="writer_commlist_guest" style="display: inline;"><c:out value="${comment.writer}"/></h5>
-													</c:if>
-													<c:if test="${comment.isUser eq 1}">
-														작성자: <h5 id="writer_commlist_user" style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
-													</c:if>
-												</div>
-												<p id="boardComment_list"><c:out value="${comment.boardComment}"/></p>
-												
 												<c:if test="${comment.isUser eq 0}">
-													<input type="password" id="pw_bdnumComm" placeholder="pw" style="width: 20em;">
+													작성자: <h5 id="writer_commlist_guest" style="display: inline;"><c:out value="${comment.writer}"/></h5>
 												</c:if>
-												<button type="button" id="delete_boardComment_submit">댓글 삭제</button>
+												<c:if test="${comment.isUser eq 1}">
+													작성자: <h5 id="writer_commlist_user" style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
+												</c:if>
 											</div>
+											<p id="boardComment_list"><c:out value="${comment.boardComment}"/></p>
+											<c:if test="${comment.isUser eq 0}">
+												<!-- <input type="password" id="pw_bdnumComm" placeholder="pw" style="width: 20em;"> -->
+												<button type="button" data-no="${comment.no}" class="delete_boardComment_submit">삭제</button>
+												<div class="${comment.no}"></div>
+											</c:if>
 											
-											<input type="hidden" name="writer" id="boardComment_writer">
-											<input type="hidden" name="bdnum" id="bdnumComm">
-											<input type="hidden" name="boardComment" id="input_comm_list">
-											<input type="hidden" name="pw" id="pw_Comm_list">
-											
-										</form>
+											<c:if test="${comment.isUser eq 1}">
+												<br>
+												<button type="button" data-no="${comment.no}" data-writer="${comment.writer}" data-curr-user="${currentUser}" data-bdnum="${viewBoard.bdnum}" class="delete_boardComment_user_submit">삭제</button>
+												<form class="${comment.no}_user">
+													<input type="hidden" name="no" class="no_${comment.no}">
+													<input type="hidden" name="writer" class="writer_${comment.no}">
+													<input type="hidden" name="bdnum" class="bdnum_${viewBoard.bdnum}">
+												</form>
+											</c:if>
+										</div>
 										<hr>
 									</c:forEach>
 								</div>
@@ -273,40 +277,75 @@
 			$('#insertComm').submit();
 		});
 		
-		$('#delete_boardComment_submit').click(function(e){
+		$('.delete_boardComment_submit').click(function(e){
+			//게스트일때
+			//if(입력한 pw == ${comment.pw} && ${comment.isUser} == 0)
+			
+			//var pw = 
+			//var bdnum = 
+ 			var no = $(this).attr("data-no");
+			
+ 			var data = {
+ 				bdnum: " ",
+ 				no: no,
+ 				pw: " "
+ 			};
+			
+			console.log("${comment.no}");
+			
+			console.log(data);
+			
+			$("div").remove("#pwForm");
+			$('.'+no).append("<div id='pwForm'><br><input type='password' id='pw_bdnumComm' placeholder='비밀번호' style='width: 20em; display: inline; margin: 0.1em 0.1em 0.1em 0.1em;'><button type='button' id='delete_comm_btn' style='background-color: #4a57a8; color: #fff;'>확인</button></div>");
 			
 			
-			var bdnum = ${bdnum};
+// 			$.ajax({
+// 				url: "${pageContext.request.contextPath}/board/deleteComm",
+// 				type: "POST",
+// 			    cache: false,
+// 			    dataType: "json",
+// 			    data: "",
+// 			    success: function(data){
+
+// 			    },
+
+// 			    error: function (request, status, error){  
+
+// 			    }
+// 			});
 			
-			$('#bdnumComm').val(bdnum);
+		});
+		
+		$('#delete_comm_btn').click(function e() {//게스트 댓글 삭제.
 			
-			if($('#writer_Comm_get_User').val() == null){
-				var writer = $('#writer_commlist_guest').text();
-				pw = $('#pw_Comm_notuser').val();
+		});
+		
+		$('.delete_boardComment_user_submit').click(function e() {
+			var no_temp = $(this).attr("data-no");
+			var no = no_temp.trim();
+			
+			var name_temp = $(this).attr("data-writer");
+			var name = name_temp.trim();//댓글 작성한 사람 name.
+			
+			var current_name_temp = $(this).attr("data-curr-user");
+			var current_name = current_name_temp.trim();//현재 접속한 유저.
+			
+			var bdnum_temp = $(this).attr("data-bdnum");
+			var bdnum = bdnum_temp.trim();
+			
+			console.log(current_name);
+			console.log(name);
+			
+			if(name == current_name){//댓글 작성, 현재 유저 닉네임 같으면 삭제.
+				$('.no_'+no_temp).val(no);
+				$('.writer_'+no_temp).val(current_name);//jstl foreach로 받아온 한글 값은 여백때문에 class이름값으로 넣기에는 좋지않다.
+				$('.bdnum_'+bdnum_temp).val(bdnum);
+				
+				//$('.' + no_temp + '_user').submit();
+				//user댓글 삭제 메소드 생성만 하면 끝.
 			}else{
-				var writer = $('#writer_commlist_user').text();
+				alert("작성한 유저가 아닙니다.");
 			}
-			
-			$('#boardComment_writer').val(writer);
-			
-			var comment = $('#boardComment_list').val();
-			
-			$('#input_comm_list').val(comment);
-			
-			var pw = $('#pw_bdnumComm').val();
-			
-			if(pw == aa){
-				
-				console.log('비밀번호 일치!');
-				$('#pw_Comm_list').val(pw);
-				
-			}else{
-				
-				console.log('비밀번호 불일치!');
-				$('#pw_Comm_list').val(0);
-			}
-			
-			$('#deleteComm').submit();
 		});
 		
 	</script>

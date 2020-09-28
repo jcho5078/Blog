@@ -140,10 +140,9 @@
 	<delete id="deleteComment" parameterType="CommVO">
 		DELETE FROM COMM
 		WHERE 
+			NO = #{no},
 			BDNUM = #{bdnum},
-			WRITER = #{writer},
-			PW = #{pw},
-			BOARDCOMMENT = #{boardComment}
+			PW = #{pw}
 	</delete>
 	
 	
