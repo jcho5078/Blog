@@ -155,16 +155,19 @@
 												</c:if>
 											</div>
 											<p id="boardComment_list"><c:out value="${comment.boardComment}"/></p>
+											
+											<!-- 댓글 삭제(게스트) -->
 											<c:if test="${comment.isUser eq 0}">
 												<!-- <input type="password" id="pw_bdnumComm" placeholder="pw" style="width: 20em;"> -->
 												<button type="button" data-no="${comment.no}" class="delete_boardComment_submit">삭제</button>
 												<div class="${comment.no}"></div>
 											</c:if>
 											
+											<!-- 댓글 삭제(유저) -->
 											<c:if test="${comment.isUser eq 1}">
 												<br>
 												<button type="button" data-no="${comment.no}" data-writer="${comment.writer}" data-curr-user="${currentUser}" data-bdnum="${viewBoard.bdnum}" class="delete_boardComment_user_submit">삭제</button>
-												<form class="${comment.no}_user">
+												<form action="" class="${comment.no}_user">
 													<input type="hidden" name="no" class="no_${comment.no}">
 													<input type="hidden" name="writer" class="writer_${comment.no}">
 													<input type="hidden" name="bdnum" class="bdnum_${viewBoard.bdnum}">
@@ -277,42 +280,11 @@
 			$('#insertComm').submit();
 		});
 		
-		$('.delete_boardComment_submit').click(function(e){
-			//게스트일때
-			//if(입력한 pw == ${comment.pw} && ${comment.isUser} == 0)
-			
-			//var pw = 
-			//var bdnum = 
- 			var no = $(this).attr("data-no");
-			
- 			var data = {
- 				bdnum: " ",
- 				no: no,
- 				pw: " "
- 			};
-			
-			console.log("${comment.no}");
-			
-			console.log(data);
+		$('.delete_boardComment_submit').click(function(e){//게스트댓글 삭제 버튼 누를 시
+			var no = $(this).attr("data-no");
 			
 			$("div").remove("#pwForm");
 			$('.'+no).append("<div id='pwForm'><br><input type='password' id='pw_bdnumComm' placeholder='비밀번호' style='width: 20em; display: inline; margin: 0.1em 0.1em 0.1em 0.1em;'><button type='button' id='delete_comm_btn' style='background-color: #4a57a8; color: #fff;'>확인</button></div>");
-			
-			
-// 			$.ajax({
-// 				url: "${pageContext.request.contextPath}/board/deleteComm",
-// 				type: "POST",
-// 			    cache: false,
-// 			    dataType: "json",
-// 			    data: "",
-// 			    success: function(data){
-
-// 			    },
-
-// 			    error: function (request, status, error){  
-
-// 			    }
-// 			});
 			
 		});
 		
@@ -320,7 +292,7 @@
 			
 		});
 		
-		$('.delete_boardComment_user_submit').click(function e() {
+		$('.delete_boardComment_user_submit').click(function e() {//유저 댓글 삭제
 			var no_temp = $(this).attr("data-no");
 			var no = no_temp.trim();
 			
