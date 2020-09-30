@@ -26,6 +26,13 @@
 		WHERE BDNUM = #{bdnum}
 	</update>
 	
+	<!-- 게시글 리스트 댓글 갯수 기록 -->
+	<update id="insertBoardCommCountMin" parameterType="int">
+		UPDATE BOARDTABLE SET
+		CNT = CNT - 1
+		WHERE BDNUM = #{bdnum}
+	</update>	
+	
 	<!-- 게시글 카운팅 -->
 	<select id="boardCount" resultType="int">
 		<![CDATA[
@@ -136,14 +143,26 @@
 		WHERE BDNUM = #{bdnum}
 	</select>
 	
-	<!-- 댓글 삭제(미완성. jsp에 NO 속성도 추가해야함.) -->
+	<!-- 댓글 삭제(게스트) -->
 	<delete id="deleteComment" parameterType="CommVO">
 		DELETE FROM COMM
 		WHERE 
-			NO = #{no},
-			BDNUM = #{bdnum},
+			NO = #{no}
+			AND
+			BDNUM = #{bdnum}
+			AND
 			PW = #{pw}
 	</delete>
 	
+	<!-- 댓글 삭제(게스트) -->
+	<delete id="deleteCommentUser" parameterType="CommVO">
+		DELETE FROM COMM
+		WHERE 
+			NO = #{no}
+			AND
+			BDNUM = #{bdnum}
+			AND
+			writer = #{writer}
+	</delete>
 	
 </mapper>

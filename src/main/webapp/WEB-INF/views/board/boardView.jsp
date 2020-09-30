@@ -126,7 +126,6 @@
 								<c:if test="${isUser eq 1}">
 									<form action="deleteUser" id="delUserForm" method="post">
 										<c:set var="writer" value="${viewBoard.writer}" />
-										<c:set var="currentUser" value="${writer}"/>
 										
 										<c:if test="${currentUser eq writer}">
 											<input type="hidden" id="writer" name="writer">
@@ -154,20 +153,28 @@
 													작성자: <h5 id="writer_commlist_user" style="display: inline; color: blue;"><c:out value="${comment.writer}"/></h5>
 												</c:if>
 											</div>
-											<p id="boardComment_list"><c:out value="${comment.boardComment}"/></p>
+											<br>
+											<p id="boardComment_list" style="margin: 0 0 0 0;"><c:out value="${comment.boardComment}"/></p>
 											
 											<!-- 댓글 삭제(게스트) -->
 											<c:if test="${comment.isUser eq 0}">
-												<!-- <input type="password" id="pw_bdnumComm" placeholder="pw" style="width: 20em;"> -->
-												<button type="button" data-no="${comment.no}" class="delete_boardComment_submit">삭제</button>
+												<br>
+												<button type="button" class="delete_boardComment_submit" data-no="${comment.no}" data-pw="${comment.pw}">삭제</button>
+												
 												<div class="${comment.no}"></div>
+												
+												<form action="deleteComm" class="${comment.no}_guest" method="post">
+													<input type="hidden" name="no" class="no_${comment.no}_guest">
+													<input type="hidden" name="pw" class="pw_${comment.no}_guest">
+													<input type="hidden" name="bdnum" class="bdnum_${viewBoard.bdnum}_guest">
+												</form>
 											</c:if>
 											
 											<!-- 댓글 삭제(유저) -->
 											<c:if test="${comment.isUser eq 1}">
 												<br>
 												<button type="button" data-no="${comment.no}" data-writer="${comment.writer}" data-curr-user="${currentUser}" data-bdnum="${viewBoard.bdnum}" class="delete_boardComment_user_submit">삭제</button>
-												<form action="" class="${comment.no}_user">
+												<form action="deleteCommUser" class="${comment.no}_user" method="post">
 													<input type="hidden" name="no" class="no_${comment.no}">
 													<input type="hidden" name="writer" class="writer_${comment.no}">
 													<input type="hidden" name="bdnum" class="bdnum_${viewBoard.bdnum}">
@@ -248,16 +255,16 @@
 			$('#delUserForm').submit();
 		});
 		
-		$('#comment_submit').click(function(e){
+		$('#comment_submit').click(function(e){ //댓글 입력
 			
 			var bdnum = ${bdnum};
 			var pw = 0;
 			
-			if($('#writer_Comm_get_User').val() == null){
+			if($('#writer_Comm_get_User').val() == null){//게스트
 				var writer = $('#writer_Comm_notuser').val();
 				$('#isUser_Comm').val(0);
 				pw = $('#pw_Comm_notuser').val();
-			}else{
+			}else{//유저
 				var writer = $('#writer_Comm_get_User').text();
 				$('#isUser_Comm').val(1);
 			}
@@ -281,20 +288,50 @@
 		});
 		
 		$('.delete_boardComment_submit').click(function(e){//게스트댓글 삭제 버튼 누를 시
-			var no = $(this).attr("data-no");
+			
+			var no_temp = $(this).attr("data-no");
+			var no = no_temp.trim();
+			
+			var pw_temp = $(this).attr("data-pw");
+			var pw = pw_temp.trim();
 			
 			$("div").remove("#pwForm");
-			$('.'+no).append("<div id='pwForm'><br><input type='password' id='pw_bdnumComm' placeholder='비밀번호' style='width: 20em; display: inline; margin: 0.1em 0.1em 0.1em 0.1em;'><button type='button' id='delete_comm_btn' style='background-color: #4a57a8; color: #fff;'>확인</button></div>");
+			$('.'+no).html("<div id='pwForm'><br><input type='password' class='pw_bdnumComm' placeholder='비밀번호' style='width: 20em; display: inline; margin: 0.1em 0.1em 0.1em 0.1em;'><button type='button' class='delete_comm_btn' data-no='${comment.no}' data-bdnum='${viewBoard.bdnum}' data-pw='${comment.pw}' style='background-color: #4a57a8; color: #fff;'>확인</button></div>");
 			
+			var test = $('.delete_comm_btn').attr("data-no", no);
+			console.log(test);
+			
+			$('.delete_comm_btn').attr("data-no", no);
+			$('.delete_comm_btn').attr("data-pw", pw);
 		});
 		
-		$('#delete_comm_btn').click(function e() {//게스트 댓글 삭제.
+		
+		$(document).on("click", "button.delete_comm_btn" ,function(e) {//게스트 댓글 삭제.
+			var no_temp = $(this).attr("data-no");
+			var no = no_temp.trim();
 			
+			var bdnum_temp = $(this).attr("data-bdnum");
+			var bdnum = bdnum_temp.trim();//해당 게시물 number
+			
+			var pw_temp = $(this).attr("data-pw");
+			var pw = pw_temp.trim();//해당 댓글 pw
+			
+			var submit_pw = $('.pw_bdnumComm').val();
+			
+			if(pw == submit_pw){	
+				$('.no_'+no_temp + "_guest").val(no);
+				$('.pw_'+no_temp + "_guest").val(submit_pw);
+				$('.bdnum_'+bdnum_temp + "_guest").val(bdnum);
+				
+				$('.' + no_temp + '_guest').submit();
+			}else{
+				alert("비밀번호가 틀립니다.");
+			}
 		});
 		
 		$('.delete_boardComment_user_submit').click(function e() {//유저 댓글 삭제
 			var no_temp = $(this).attr("data-no");
-			var no = no_temp.trim();
+			var no = no_temp.trim();//해당 댓글 number
 			
 			var name_temp = $(this).attr("data-writer");
 			var name = name_temp.trim();//댓글 작성한 사람 name.
@@ -303,7 +340,7 @@
 			var current_name = current_name_temp.trim();//현재 접속한 유저.
 			
 			var bdnum_temp = $(this).attr("data-bdnum");
-			var bdnum = bdnum_temp.trim();
+			var bdnum = bdnum_temp.trim();//해당 게시물 number
 			
 			console.log(current_name);
 			console.log(name);
@@ -313,8 +350,9 @@
 				$('.writer_'+no_temp).val(current_name);//jstl foreach로 받아온 한글 값은 여백때문에 class이름값으로 넣기에는 좋지않다.
 				$('.bdnum_'+bdnum_temp).val(bdnum);
 				
-				//$('.' + no_temp + '_user').submit();
-				//user댓글 삭제 메소드 생성만 하면 끝.
+				alert("지금: "+current_name+"  글쓴이: "+name);
+				
+				$('.' + no_temp + '_user').submit();
 			}else{
 				alert("작성한 유저가 아닙니다.");
 			}

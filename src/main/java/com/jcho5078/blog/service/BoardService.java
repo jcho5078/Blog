@@ -29,4 +29,8 @@ public interface BoardService {
 	public void insertComm(CommVO vo);
 	//게시글 댓글갯수 카운트
 	public void insertBoardCommCount(int bdnum);
+	//댓글 삭제(게스트)
+	public void deleteComm(CommVO vo);
+	//댓글 삭제(유저)
+	public void deleteCommUser(CommVO vo);
 }

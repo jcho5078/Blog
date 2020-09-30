@@ -92,4 +92,22 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		return sqlSession.selectOne("board.getMaxCommNo", bdnum);
 	}
+
+	@Override
+	public void deleteComm(CommVO vo) {
+		
+		sqlSession.delete("board.deleteComment", vo);
+	}
+
+	@Override
+	public void deleteCommUser(CommVO vo) {
+		
+		sqlSession.delete("board.deleteCommentUser", vo);
+	}
+
+	@Override
+	public void insertBoardCommCountMin(int bdnum) {
+		
+		sqlSession.update("board.insertBoardCommCountMin", bdnum);
+	}
 }

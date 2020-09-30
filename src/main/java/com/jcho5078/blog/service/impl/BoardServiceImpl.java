@@ -82,4 +82,20 @@ public class BoardServiceImpl implements BoardService{
 		
 		boardDAO.insertBoardCommCount(bdnum);
 	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	public void deleteComm(CommVO vo) {
+		
+		boardDAO.deleteComm(vo);
+		boardDAO.insertBoardCommCountMin(vo.getBdnum());
+	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Override
+	public void deleteCommUser(CommVO vo) {
+		
+		boardDAO.deleteCommUser(vo);
+		boardDAO.insertBoardCommCountMin(vo.getBdnum());
+	}
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,8 +104,19 @@ public class BoardController {
 	}
 	
 	//댓글 입력 (게시글 댓글 카운트 이 메소드에 넣기)
+	@Transactional
 	@RequestMapping(value = "board/insertComm", method = RequestMethod.POST)
-	public String insertComm(CommVO vo) {
+	public String insertComm(CommVO vo, Principal principal) {
+		
+		String id = principal.getName();
+		String name = userDAO.getName(id).getName();
+		
+		if(vo.getWriter() == null) {
+			System.out.println("게스트");
+		}else {
+			System.out.println("유저");//jstl의 foreach의 값은 같아보여도 다르기에 JAVA의 값으로 DB에 삽입.
+			vo.setWriter(name);
+		}
 		
 		boardService.insertBoardCommCount(vo.getBdnum());
 
@@ -115,10 +127,29 @@ public class BoardController {
 		return url;
 	}
 	
+	//댓글삭제(게스트)
 	@RequestMapping(value = "board/deleteComm", method = RequestMethod.POST)
-	public String deleteComm(CommVO vo, @RequestBody CommVO test) {
+	public String deleteComm(CommVO vo) {
+		
+		boardService.deleteComm(vo);
+		String url = "redirect:/board/readboard?bdnum="+vo.getBdnum();
+		
+		return url;
+	}
+	
+	//댓글삭제(유저)
+	@RequestMapping(value = "board/deleteCommUser", method = RequestMethod.POST)
+	public String deleteCommUser(CommVO vo, @RequestParam String writer, Principal principal) {
+		
+		String id = principal.getName();
+		String name = userDAO.getName(id).getName();
+		name = name.trim();
+		System.out.println("현재 유저: "+ name);		
+		
+		vo.setWriter(name);
 		
 		
+		boardService.deleteCommUser(vo);
 		
 		String url = "redirect:/board/readboard?bdnum="+vo.getBdnum();
 		
