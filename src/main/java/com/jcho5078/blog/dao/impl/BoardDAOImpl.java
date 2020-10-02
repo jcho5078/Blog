@@ -1,6 +1,7 @@
 package com.jcho5078.blog.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,5 +110,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public void insertBoardCommCountMin(int bdnum) {
 		
 		sqlSession.update("board.insertBoardCommCountMin", bdnum);
+	}
+
+	@Override
+	public void insertFile(Map<String, Object> map) {
+		
+		sqlSession.insert("board.insertFile", map);
 	}
 }

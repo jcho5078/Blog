@@ -1,6 +1,9 @@
 package com.jcho5078.blog.dao;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jcho5078.blog.vo.BoardNumVO;
 import com.jcho5078.blog.vo.BoardVO;
@@ -39,4 +42,6 @@ public interface BoardDAO {
 	public void deleteComm(CommVO vo);
 	//댓글 삭제(유저)
 	public void deleteCommUser(CommVO vo);
+	//파일 업로드
+	public void insertFile(Map<String, Object> map);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jcho5078.blog.dao.UserDAO;
 import com.jcho5078.blog.service.BoardService;
@@ -53,8 +54,8 @@ public class BoardController {
 	
 	//게시글 작성
 	@RequestMapping(value = "board/insert")
-	public String insertBoard(BoardVO vo, Principal principal,
-			@RequestParam String title, @RequestParam String content, HttpServletRequest request) {
+	public String insertBoard(BoardVO vo, Principal principal, MultipartHttpServletRequest fileRequest,
+			@RequestParam String title, @RequestParam String content, HttpServletRequest request) throws Exception {
 		
 		String am_pw = request.getParameter("am_pw");
 		String am_writer = request.getParameter("am_writer");
@@ -76,7 +77,7 @@ public class BoardController {
 		vo.setTitle(title);
 		vo.setContent(content);
 		
-		boardService.insertBoard(vo);
+		boardService.insertBoard(vo, fileRequest);
 		
 		System.out.println("냥: "+vo.getBdnum());
 		
@@ -114,8 +115,8 @@ public class BoardController {
 		if(vo.getWriter() == null) {
 			System.out.println("게스트");
 		}else {
-			System.out.println("유저");//jstl의 foreach의 값은 같아보여도 다르기에 JAVA의 값으로 DB에 삽입.
-			vo.setWriter(name);
+			System.out.println("유저");
+			vo.setWriter(name);//jstl의 foreach에서 가져온 값은 같아보여도 다르기에 JAVA의 값으로 DB에 삽입.
 		}
 		
 		boardService.insertBoardCommCount(vo.getBdnum());
@@ -147,7 +148,6 @@ public class BoardController {
 		System.out.println("현재 유저: "+ name);		
 		
 		vo.setWriter(name);
-		
 		
 		boardService.deleteCommUser(vo);
 		

@@ -9,6 +9,7 @@
 		<param-value>
 			/WEB-INF/spring/root-context.xml
 			classpath:security-context.xml
+			classpath:file-context.xml
 		</param-value>
 	</context-param>
 	

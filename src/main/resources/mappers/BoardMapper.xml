@@ -79,6 +79,23 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 파일 업로드 -->
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT into up_file(
+			file_no,
+			bdnum,
+			origin_file_name,
+			store_file_name,
+			file_size
+		)VALUES(
+			file_no_seq.NEXTVAL,
+			#{bdnum},
+			#{origin_file_name},
+			#{store_file_name},
+			#{file_size}
+		)
+	</insert>
+	
 	<!-- 게시글 삭제(유저) -->
 	<delete id="deleteBoardUser" parameterType="BoardVO">
 		DELETE FROM BOARDTABLE

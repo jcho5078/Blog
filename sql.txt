@@ -37,3 +37,20 @@ create table comm(
 	pw number default 0,
 	constraint fk_comment FOREIGN KEY(bdnum) references boardtable(bdnum) on delete cascade
 );
+
+//파일 업로드
+create table up_file(
+	file_no number primary key,
+	bdnum number not null,
+	origin_file_name varchar2(300) not null,
+	store_file_name varchar2(50) not null,
+	file_size number,
+	input_date date default sysdate,
+	isDel varchar2(1) default 'N' not null
+);
+
+//파일 번호 시퀀스
+create sequence file_no_seq
+	start with 1
+	increment by 1
+	NOCACHE;
