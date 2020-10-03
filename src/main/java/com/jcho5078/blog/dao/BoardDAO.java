@@ -44,4 +44,8 @@ public interface BoardDAO {
 	public void deleteCommUser(CommVO vo);
 	//파일 업로드
 	public void insertFile(Map<String, Object> map);
+	//파일 조회
+	public List<Map<String, Object>> viewFile(int bdnum) throws Exception;
+	//파일 다운로드
+	public Map<String, Object> downloadFile(Map<String, Object> map) throws Exception;
 }

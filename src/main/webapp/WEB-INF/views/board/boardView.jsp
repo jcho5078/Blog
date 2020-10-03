@@ -100,13 +100,27 @@
 									</tr>
 									<tr>
 										<th>
+											<!-- 제목 -->
 											<h3 style="margin: 0 0 0 0 !important;"><c:out value="${viewBoard.title}"/></h3>
 										</th>
 										<c:out value="# ${viewBoard.bdnum}"/>
 									</tr>
 									<tr>
 										<td style="padding: 2em 1em 5em 1em;">
+											<!-- 내용 -->
 											<c:out value="${viewBoard.content}"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<!-- 파일 출력 -->
+											<c:forEach var="fileList" items="${fileList}">
+												
+												<a href="#" onclick="file_download('${fileList.FILE_NO}'); return false;">${fileList.ORIGIN_FILE_NAME}</a>(${fileList.FILE_SIZE}kb)<br>
+											</c:forEach>
+											<form id="fileDownload">
+												<input type="hidden" name="file_no" id="file_no">
+											</form>
 										</td>
 									</tr>
 							
@@ -357,6 +371,14 @@
 				alert("작성한 유저가 아닙니다.");
 			}
 		});
+		
+		function file_download(fileNo) {
+
+			$('#file_no').val(fileNo);
+			$('#fileDownload').attr("action", "fileDownload");
+			
+			$('#fileDownload').submit();
+		}
 		
 	</script>
 </body>

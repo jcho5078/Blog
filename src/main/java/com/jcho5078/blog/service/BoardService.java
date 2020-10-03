@@ -1,6 +1,7 @@
 package com.jcho5078.blog.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -35,4 +36,8 @@ public interface BoardService {
 	public void deleteComm(CommVO vo);
 	//댓글 삭제(유저)
 	public void deleteCommUser(CommVO vo);
+	//파일 조회
+	public List<Map<String, Object>> viewFile(int bdnum) throws Exception;
+	//파일 다운로드
+	public Map<String, Object> downloadFile(Map<String, Object> map) throws Exception;
 }

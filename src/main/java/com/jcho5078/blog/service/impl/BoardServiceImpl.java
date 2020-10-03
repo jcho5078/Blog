@@ -119,4 +119,16 @@ public class BoardServiceImpl implements BoardService{
 		boardDAO.deleteCommUser(vo);
 		boardDAO.insertBoardCommCountMin(vo.getBdnum());
 	}
+
+	@Override
+	public List<Map<String, Object>> viewFile(int bdnum) throws Exception {
+		
+		return boardDAO.viewFile(bdnum);
+	}
+
+	@Override
+	public Map<String, Object> downloadFile(Map<String, Object> map) throws Exception {
+		
+		return boardDAO.downloadFile(map);
+	}
 }

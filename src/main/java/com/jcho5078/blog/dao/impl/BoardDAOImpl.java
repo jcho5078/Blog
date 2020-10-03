@@ -117,4 +117,16 @@ public class BoardDAOImpl implements BoardDAO {
 		
 		sqlSession.insert("board.insertFile", map);
 	}
+
+	@Override
+	public List<Map<String, Object>> viewFile(int bdnum) throws Exception {
+		
+		return sqlSession.selectList("board.viewFile", bdnum);
+	}
+
+	@Override
+	public Map<String, Object> downloadFile(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.selectOne("board.downloadFile", map);
+	}
 }
